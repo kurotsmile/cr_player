@@ -10,6 +10,7 @@ class CR_Player {
   name_singer="Music Player";
 
   list_song=[];
+  index_play_cur=0;
   
   onCreate() {
     this.audio_player = new Audio();
@@ -47,6 +48,7 @@ class CR_Player {
   }
 
   play(url_mp3) {
+    this.index_play_cur=0;
     this.list_song=[];
     var obj_data={"mp3":url_mp3,"name":"Song "+this.list_song.length,"artist":"Carrot Player Music"};
     this.list_song.push(obj_data);
@@ -55,6 +57,7 @@ class CR_Player {
   }
 
   play(url_mp3,name_song){
+    this.index_play_cur=0;
     this.list_song=[];
     var obj_data={"mp3":url_mp3,"name":name_song,"artist":"Carrot Player Music"};
     this.list_song.push(obj_data);
@@ -64,12 +67,21 @@ class CR_Player {
   }
 
   play(url_mp3,name_song,name_singer){
+    this.index_play_cur=0;
     this.list_song=[];
     var obj_data={"mp3":url_mp3,"name":name_song,"artist":name_singer};
     this.list_song.push(obj_data);
     this.name_song=name_song;
     this.name_singer=name_singer;
     this.set_mp3(url_mp3);
+    this.uiPlayer();
+  }
+
+  play_by_index(index){
+    var song=this.list_song[index];
+    this.name_song=song.name;
+    this.name_singer=song.artist;
+    this.set_mp3(song.mp3);
     this.uiPlayer();
   }
 
@@ -114,8 +126,8 @@ class CR_Player {
       html+='<div id="cr_singer" style="color:'+this.color_hightlight+'">'+this.name_singer+'</div>';
       html+='</div>';
       html+='<button onclick="cr_player.playOrPause();" class="btn btn-sm btn-dark ml-2" id="cr_btn_play"><i class="far fa-play-circle"></i></button>';
-      html+='<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_next"><i class="fas fa-step-backward"></i></button>';
-      html+='<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev"><i class="fas fa-step-forward"></i></button>';
+      html+='<button onclick="cr_player.prev_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_next"><i class="fas fa-step-backward"></i></button>';
+      html+='<button onclick="cr_player.next_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev"><i class="fas fa-step-forward"></i></button>';
       html+='<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1"><i class="far fa-stop-circle"></i></button>';
       html+='<button onclick="cr_player.show_setting();" class="btn btn-sm btn-dark ml-1 btn-setting"><i class="fas fa-tools"></i></button>';
       html+='</div>';
@@ -211,6 +223,16 @@ class CR_Player {
       title:"Setting",
       Text:"Conetent"
     });
+  }
+
+  next_song(){
+    this.index_play_cur++;
+    this.play_by_index(this.index_play_cur);
+  }
+
+  prev_song(){
+    this.index_play_cur--;
+    this.play_by_index(this.index_play_cur);
   }
 }
 var cr_player = new CR_Player();
