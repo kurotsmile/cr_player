@@ -9,3 +9,37 @@
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+#cr_info{
+    width: 200px;
+    float: left;
+    font-size: 12px;
+}
+
+#cr_name{
+    float: left;
+    width: 100%;
+}
+
+#cr_singer{
+    float: left;
+    width: 100%;
+    font-weight: bold;
+    font-style: oblique;
+}
+
+#cr_song_avatar{
+    width: 56px;
+    height: 56px;
+    float: left;
+}
+
+#cr_player .btn{
+    margin-top: 13px;
+    background-color: black;
+}
+
+#cr_player .btn-setting{
+    float: right;
+    margin-right: 15px;
+}
