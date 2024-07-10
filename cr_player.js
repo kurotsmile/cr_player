@@ -256,12 +256,12 @@ class CR_Player {
             html = '<tr role="button">';
             if(cr_player.index_play_cur==index){
                 html += '<td style="color:'+cr_player.color_hightlight+'"><i class="fas fa-volume-up"></i></td>';
-                html += '<td style="color:'+cr_player.color_hightlight+'">' + s.name + '</td>';
+                html += '<td style="color:'+cr_player.color_hightlight+';width:80%">' + s.name + '</td>';
                 html += '<td><i class="fas fa-pause" title="pause"></i></td>';
             }
             else{
                 html += '<th scope="row"><i class="fas fa-music"></i></th>';
-                html += '<td>' + s.name + '</td>';
+                html += '<td style="width:80%">' + s.name + '</td>';
                 html += '<td><i class="fas fa-play" title="Play One"></i></td>';
             }
             html += '<td class="box_all_btn"></td>';
