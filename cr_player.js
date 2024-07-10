@@ -14,13 +14,43 @@ class CR_Player {
   onCreate() {
     this.audio_player = new Audio();
     $('head').append('<link rel="stylesheet" type="text/css" href="cr_player/theme_' + this.theme + '.css">');
+    this.upDateInfoLoad();
+  }
+
+  upDateInfoLoad(){
+    this.audio_player.addEventListener('canplaythrough', function() {
+      cr_player.audio_player.play();
+    }, false);
+
+    this.audio_player.addEventListener('progress', function() {
+      var buffered = this.buffered;
+      if (buffered.length > 0) {
+          var loadedPercentage = (buffered.end(0) / this.duration) * 100;
+          $("#cr_singer").html('Audio loaded: ' + loadedPercentage.toFixed(2) + '%');
+          $("#cr_btn_play").html('<i class="fas fa-spinner fa-spin"></i>');
+      }
+    });
+
+    this.audio_player.addEventListener('play', function() {
+      setTimeout(()=>{
+        $("#cr_singer").html(cr_player.name_singer);
+        cr_player.checkIconPlay();
+      },1000);
+    });
+
+    this.audio_player.addEventListener('error', function() {
+      setTimeout(()=>{
+        $("#cr_singer").html('Error loading the audio');
+        $("#cr_btn_play").html('<i class="fas fa-exclamation-circle"></i>');
+      },1000);
+    });
   }
 
   play(url_mp3) {
     this.list_song=[];
     var obj_data={"mp3":url_mp3,"name":"Song "+this.list_song.length,"artist":"Carrot Player Music"};
     this.list_song.push(obj_data);
-    this.set_mp3(url_mp3).audio_player.play();
+    this.set_mp3(url_mp3);
     this.uiPlayer();
   }
 
@@ -29,7 +59,7 @@ class CR_Player {
     var obj_data={"mp3":url_mp3,"name":name_song,"artist":"Carrot Player Music"};
     this.list_song.push(obj_data);
     this.name_song=name_song;
-    this.set_mp3(url_mp3).audio_player.play();
+    this.set_mp3(url_mp3);
     this.uiPlayer();
   }
 
@@ -39,7 +69,7 @@ class CR_Player {
     this.list_song.push(obj_data);
     this.name_song=name_song;
     this.name_singer=name_singer;
-    this.set_mp3(url_mp3).audio_player.play();
+    this.set_mp3(url_mp3);
     this.uiPlayer();
   }
 
@@ -72,7 +102,7 @@ class CR_Player {
 
   set_mp3(url_mp3) {
     this.audio_player.src = url_mp3;
-    return this;
+    this.audio_player.load();
   }
 
   uiPlayer() {
@@ -83,7 +113,7 @@ class CR_Player {
       html+='<div id="cr_name">'+this.name_song+'</div>';
       html+='<div id="cr_singer" style="color:'+this.color_hightlight+'">'+this.name_singer+'</div>';
       html+='</div>';
-      html+='<button onclick="cr_player.play();" class="btn btn-sm btn-dark ml-2"><i class="far fa-play-circle"></i></button>';
+      html+='<button onclick="cr_player.playOrPause();" class="btn btn-sm btn-dark ml-2" id="cr_btn_play"><i class="far fa-play-circle"></i></button>';
       html+='<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_next"><i class="fas fa-step-backward"></i></button>';
       html+='<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev"><i class="fas fa-step-forward"></i></button>';
       html+='<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1"><i class="far fa-stop-circle"></i></button>';
@@ -116,7 +146,6 @@ class CR_Player {
 
   stop(){
     this.audio_player.pause();
-    this.audio_player.currentTime = 0;
     this.hide();
   }
 
@@ -145,13 +174,13 @@ class CR_Player {
         cr_player.audio_player.stop();
       });
       navigator.mediaSession.setActionHandler("seekbackward", () => {
-        /* Code excerpted. */
+
       });
       navigator.mediaSession.setActionHandler("seekforward", () => {
-        /* Code excerpted. */
+        
       });
       navigator.mediaSession.setActionHandler("seekto", () => {
-        /* Code excerpted. */
+
       });
       navigator.mediaSession.setActionHandler("previoustrack", () => {
         cr_player.audio_player.prev();
@@ -160,6 +189,21 @@ class CR_Player {
         cr_player.audio_player.next();
       });
     }
+  }
+
+  playOrPause(){
+    if(this.audio_player.paused)
+      this.audio_player.play();
+    else
+      this.audio_player.pause();
+    this.checkIconPlay();
+  }
+
+  checkIconPlay(){
+    if(this.audio_player.paused)
+      $("#cr_btn_play").html('<i class="far fa-play-circle"></i>');
+    else
+      $("#cr_btn_play").html('<i class="fas fa-pause-circle"></i>');
   }
 
   show_setting(){
