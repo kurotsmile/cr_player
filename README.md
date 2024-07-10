@@ -7,7 +7,7 @@
 
 1. Tải `cr_player.js` từ repository GitHub của bạn.
 2. Thêm file `cr_player.js` vào dự án web của bạn.
-3. Thêm đoạn mã sau vào file HTML của bạn để tải `cr_player.js`:
+3. Thêm các thư viện `Swal2` và `FontAwesome v5` vào dự án của bạn:
 
 ```html
 <!DOCTYPE html>
@@ -16,6 +16,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
+    <!-- Thêm Swal2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Thêm FontAwesome v5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <!-- Thêm các phần tử HTML khác ở đây -->
@@ -64,6 +68,10 @@ Dưới đây là ví dụ hoàn chỉnh về cách sử dụng `cr_player` trê
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
+    <!-- Thêm Swal2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Thêm FontAwesome v5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <h1>Welcome to My Music Player</h1>

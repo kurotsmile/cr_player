@@ -6,7 +6,8 @@ class CR_Player {
 
   color_hightlight="#bd92ff";
 
-  name_song="";
+  name_song="Carrot Player Music";
+  name_singer="Music Player";
 
   onCreate() {
     this.audio_player = new Audio();
@@ -24,6 +25,13 @@ class CR_Player {
     this.uiPlayer();
   }
 
+  play(url_mp3,name_song,name_singer){
+    this.name_song=name_song;
+    this.name_singer=name_singer;
+    this.set_mp3(url_mp3).audio_player.play();
+    this.uiPlayer();
+  }
+
   set_mp3(url_mp3) {
     this.audio_player.src = url_mp3;
     return this;
@@ -34,8 +42,8 @@ class CR_Player {
       var html='<div id="cr_player">';
       html+='<img src="cr_player/song.png" id="cr_song_avatar"/>';
       html+='<div id="cr_info" class="d-inline mt-2 ml-2">';
-      html+='<div id="cr_name">Name song</div>';
-      html+='<div id="cr_singer" style="color:'+this.color_hightlight+'">Name singer</div>';
+      html+='<div id="cr_name">'+this.name_song+'</div>';
+      html+='<div id="cr_singer" style="color:'+this.color_hightlight+'">'+this.name_singer+'</div>';
       html+='</div>';
       html+='<button onclick="cr_player.play();" class="btn btn-sm btn-dark ml-2"><i class="far fa-play-circle"></i></button>';
       html+='<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1"><i class="fas fa-step-backward"></i></button>';
@@ -46,9 +54,11 @@ class CR_Player {
       this.emp_ui_player=$(html);
       $("body").append(this.emp_ui_player);
       $(this.emp_ui_player).find("#cr_name").html(this.name_song);
+      $(this.emp_ui_player).find("#cr_singer").html(this.name_singer);
     }else{
       $(this.emp_ui_player).fadeIn(500);
       $(this.emp_ui_player).find("#cr_name").html(this.name_song);
+      $(this.emp_ui_player).find("#cr_singer").html(this.name_singer);
     }
   }
 
