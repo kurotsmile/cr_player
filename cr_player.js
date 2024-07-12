@@ -23,6 +23,7 @@ class CR_Player {
       cr_player.audio_player.play();
     }, false);
 
+  
     this.audio_player.addEventListener('progress', function () {
       var buffered = this.buffered;
       if (buffered.length > 0) {
@@ -30,7 +31,14 @@ class CR_Player {
         $("#cr_singer").html('Audio loaded: ' + loadedPercentage.toFixed(2) + '%');
         $("#cr_btn_play").html('<i class="fas fa-spinner fa-spin"></i>');
       }
+
+      if (cr_player.audio_player.readyState >= 2){
+          $("#cr_singer").html(cr_player.name_singer);
+          cr_player.checkIconPlay();
+      }
     });
+
+
 
     this.audio_player.addEventListener('play', function () {
       setTimeout(() => {
@@ -245,7 +253,6 @@ class CR_Player {
     } else {
       var html = '<center class="text-center w-100 d-block" style="width:100%"><table style="width:100%" class="table table-striped table-hover table-responsive fs-9 w-100 text-break"><tbody style="width:100%" id="box_list_song"></tbody></table></center>';
       swal.fire({
-        icon: "info",
         title: "Playlist",
         html: html,
         iconColor: cr_player.color_hightlight,
