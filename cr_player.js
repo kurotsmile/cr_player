@@ -237,11 +237,13 @@ class CR_Player {
 
   next_song() {
     this.index_play_cur++;
+    if(this.index_play_cur>=this.list_song.length) this.index_play_cur=0;
     this.play_by_index(this.index_play_cur);
   }
 
   prev_song() {
     this.index_play_cur--;
+    if(this.index_play_cur<0) this.index_play_cur=this.list_song.length-1;
     this.play_by_index(this.index_play_cur);
   }
 
