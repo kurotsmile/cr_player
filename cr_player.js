@@ -38,8 +38,6 @@ class CR_Player {
       }
     });
 
-
-
     this.audio_player.addEventListener('play', function () {
       setTimeout(() => {
         $("#cr_singer").html(cr_player.name_singer);
