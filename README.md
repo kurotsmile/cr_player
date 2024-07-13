@@ -94,6 +94,34 @@ Dưới đây là ví dụ hoàn chỉnh về cách sử dụng `cr_player` trê
 </html>
 ```
 
+### Thêm bài hát vào playlist
+
+Bạn có thể thêm bài hát vào playlist đang phát bằng cách sử dụng một trong hai phương thức sau:
+
+#### 1. `add_song(url_mp3)`
+
+Phương thức này thêm bài hát vào playlist chỉ với đường dẫn URL đến file MP3.
+
+```javascript
+// Cú pháp
+cr_player.add_song(url_mp3);
+
+// Ví dụ
+cr_player.add_song('https://example.com/music/song1.mp3');
+```
+
+#### 2. `add_song(url_mp3, name, artist)`
+
+Phương thức này thêm bài hát vào playlist với đường dẫn URL đến file MP3, tên bài hát và tên nghệ sĩ.
+
+```javascript
+// Cú pháp
+cr_player.add_song(url_mp3, name, artist);
+
+// Ví dụ
+cr_player.add_song('https://example.com/music/song2.mp3', 'Song Title', 'Artist Name');
+```
+
 Hy vọng hướng dẫn này sẽ giúp bạn dễ dàng cài đặt và sử dụng `cr_player` cho dự án web của mình. Nếu có bất kỳ câu hỏi hay gặp vấn đề gì, xin vui lòng tạo một issue trên GitHub hoặc liên hệ với tôi qua email.
 
 ## Liên hệ
