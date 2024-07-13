@@ -1,0 +1,21 @@
+#cr_player{
+    width: 285px;
+    top: unset;
+    bottom: 10px;
+    right: unset;
+    left: 10px;
+    height: 93px;
+}
+
+#cr_song_avatar {
+    width: 93px;
+    height: 93px;
+}
+
+#cr_info{
+    width: 184px;
+}
+
+#cr_name,#cr_singer{
+    font-size: 100%;
+}

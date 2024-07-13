@@ -1,6 +1,6 @@
 class CR_Player {
 
-  theme = "basic";
+  theme = "theme_basic_top";
   audio_player = null;
   emp_ui_player = null;
 
@@ -12,9 +12,13 @@ class CR_Player {
   list_song = [];
   index_play_cur = 0;
 
+  list_theme=['theme_basic_top','theme_basic_bottom','theme_dock_left'];
+
   onCreate() {
     this.audio_player = new Audio();
-    $('head').append('<link rel="stylesheet" type="text/css" href="cr_player/theme_' + this.theme + '.css">');
+    if(localStorage.getItem("cr_player_theme")!=null) this.theme=localStorage.getItem("cr_player_theme");
+    $('head').append('<link rel="stylesheet" type="text/css" href="cr_player/theme.css">');
+    $('head').append('<link id="'+this.theme+'" rel="stylesheet" type="text/css" href="cr_player/' + this.theme + '.css">');
     this.upDateInfoLoad();
   }
 
@@ -228,10 +232,36 @@ class CR_Player {
   }
 
   show_setting() {
+    var html='';
+    html+='<div class="form-group">';
+      html+='<label for="unlockallmp3"><i class="fas fa-brush"></i> Interface and themes</label>';
+      html+='<select class="form-control" id="dropdown_theme"><select>';
+      html+='<small class="form-text text-muted">Change the style of the music player</small>';
+    html+='</div>';
     swal.fire({
       title: "Setting",
-      Text: "Conetent",
-      confirmButtonColor: cr_player.color_hightlight
+      html: html,
+      confirmButtonColor: cr_player.color_hightlight,
+      didOpen:()=>{
+        $(cr_player.list_theme).each(function(index,th){
+          if(cr_player.theme==th)
+            $("#dropdown_theme").append($('<option>', {value: th,text: th,selected:true}));
+          else
+            $("#dropdown_theme").append($('<option>', {value: th,text: th}));
+        });
+      }
+    }).then((result)=>{
+      if(result.isConfirmed){
+          var new_theme_val=$("#dropdown_theme").val();
+          if(new_theme_val!=cr_player.theme){
+            cr_player.theme=new_theme_val;
+            localStorage.setItem("cr_player_theme",cr_player.theme);
+            $(cr_player.list_theme).each(function(index,th){
+              $("#"+th).remove();
+            });
+            $('head').append('<link id="'+cr_player.theme+'" rel="stylesheet" type="text/css" href="cr_player/' + cr_player.theme + '.css">');
+          }
+      }
     });
   }
 
