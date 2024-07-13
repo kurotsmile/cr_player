@@ -1,15 +1,15 @@
 
 # cr_player
 
-`cr_player` is a simple music player for websites, making it easy to integrate and use music playback features on your webpage.
+`cr_player` là một trình phát nhạc đơn giản cho website, giúp bạn dễ dàng tích hợp và sử dụng các tính năng phát nhạc trên trang web của mình.
 
 <img src="https://github.com/kurotsmile/cr_player/blob/cd1e347950e4a7a7ada7d244ea8dc49b8b5b457a/song.png" alt="cr_player" width="150"/>
 
-## Installation
+## Cài đặt
 
-1. Download `cr_player.js` from your GitHub repository.
-2. Add the `cr_player.js` file to your web project.
-3. Add the `Swal2` and `FontAwesome v5` libraries to your project:
+1. Tải `cr_player.js` từ repository GitHub của bạn.
+2. Thêm file `cr_player.js` vào dự án web của bạn.
+3. Thêm các thư viện `Swal2` và `FontAwesome v5` vào dự án của bạn:
 
 ```html
 <!DOCTYPE html>
@@ -18,34 +18,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
-    <!-- Add Swal2 -->
+    <!-- Thêm Swal2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Add FontAwesome v5 -->
+    <!-- Thêm FontAwesome v5 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <!-- Add other HTML elements here -->
+    <!-- Thêm các phần tử HTML khác ở đây -->
 
-    <!-- Load cr_player.js -->
+    <!-- Tải cr_player.js -->
     <script src="path/to/cr_player.js"></script>
     <script>
-        // Initialize cr_player
+        // Khởi tạo cr_player
         cr_player.onCreate();
 
-        // Example: Play an audio file
+        // Ví dụ: Phát một file audio
         cr_player.play('url/to/your/audiofile.mp3');
     </script>
 </body>
 </html>
 ```
 
-### Introduction
+### Giới thiệu
 
-`cr_player` provides functions to create and play music on your website.
+`cr_player` cung cấp các hàm để tạo và phát nhạc trên trang web của bạn.
 
 #### `cr_player.onCreate()`
 
-This function is called to initialize the music player when the webpage loads. You should call this function right after loading `cr_player.js` in your HTML file.
+Hàm này được gọi để khởi tạo trình phát nhạc khi trang web được tải. Bạn nên gọi hàm này ngay sau khi tải `cr_player.js` trong file HTML của bạn.
 
 ```javascript
 cr_player.onCreate();
@@ -53,15 +53,15 @@ cr_player.onCreate();
 
 #### `cr_player.play(url_audio)`
 
-This function is used to play an audio file. You need to pass in the URL of the audio file you want to play.
+Hàm này được sử dụng để phát một file audio. Bạn cần truyền vào URL của file audio muốn phát.
 
 ```javascript
 cr_player.play('url/to/your/audiofile.mp3');
 ```
 
-### Complete Example
+### Ví dụ hoàn chỉnh
 
-Here is a complete example of how to use `cr_player` on your website:
+Dưới đây là ví dụ hoàn chỉnh về cách sử dụng `cr_player` trên trang web của bạn:
 
 ```html
 <!DOCTYPE html>
@@ -70,22 +70,22 @@ Here is a complete example of how to use `cr_player` on your website:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
-    <!-- Add Swal2 -->
+    <!-- Thêm Swal2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Add FontAwesome v5 -->
+    <!-- Thêm FontAwesome v5 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <h1>Welcome to My Music Player</h1>
     <button onclick="cr_player.play('url/to/your/audiofile.mp3')">Play Music</button>
 
-    <!-- Load cr_player.js -->
+    <!-- Tải cr_player.js -->
     <script src="path/to/cr_player.js"></script>
     <script>
-        // Initialize cr_player
+        // Khởi tạo cr_player
         cr_player.onCreate();
 
-        // Example: Play an audio file when the user clicks the button
+        // Ví dụ: Phát một file audio khi người dùng nhấn nút
         document.querySelector('button').addEventListener('click', function() {
             cr_player.play('url/to/your/audiofile.mp3');
         });
@@ -94,39 +94,39 @@ Here is a complete example of how to use `cr_player` on your website:
 </html>
 ```
 
-### Adding Songs to Playlist
+### Thêm bài hát vào playlist
 
-You can add songs to the currently playing playlist using one of the following methods:
+Bạn có thể thêm bài hát vào playlist đang phát bằng cách sử dụng một trong hai phương thức sau:
 
 #### 1. `add_song(url_mp3)`
 
-This method adds a song to the playlist with just the URL to the MP3 file.
+Phương thức này thêm bài hát vào playlist chỉ với đường dẫn URL đến file MP3.
 
 ```javascript
-// Syntax
+// Cú pháp
 cr_player.add_song(url_mp3);
 
-// Example
+// Ví dụ
 cr_player.add_song('https://example.com/music/song1.mp3');
 ```
 
 #### 2. `add_song(url_mp3, name, artist)`
 
-This method adds a song to the playlist with the URL to the MP3 file, the song name, and the artist name.
+Phương thức này thêm bài hát vào playlist với đường dẫn URL đến file MP3, tên bài hát và tên nghệ sĩ.
 
 ```javascript
-// Syntax
+// Cú pháp
 cr_player.add_song(url_mp3, name, artist);
 
-// Example
+// Ví dụ
 cr_player.add_song('https://example.com/music/song2.mp3', 'Song Title', 'Artist Name');
 ```
 
-I hope this guide helps you easily install and use `cr_player` for your web project. If you have any questions or encounter any issues, please create an issue on GitHub or contact me via email.
+Hy vọng hướng dẫn này sẽ giúp bạn dễ dàng cài đặt và sử dụng `cr_player` cho dự án web của mình. Nếu có bất kỳ câu hỏi hay gặp vấn đề gì, xin vui lòng tạo một issue trên GitHub hoặc liên hệ với tôi qua email.
 
-## Contact
+## Liên hệ
 
 - Email: [tranthienthanh93@gmail.com](mailto:tranthienthanh93@gmail.com)
 - Email: [tranrot93@gmail.com](mailto:tranrot93@gmail.com)
 
-Thank you for using `cr_player`!
+Cảm ơn bạn đã sử dụng `cr_player`!
