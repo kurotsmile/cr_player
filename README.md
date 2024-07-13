@@ -3,6 +3,8 @@
 
 `cr_player` là một trình phát nhạc đơn giản cho website, giúp bạn dễ dàng tích hợp và sử dụng các tính năng phát nhạc trên trang web của mình.
 
+![cr_player](https://github.com/kurotsmile/cr_player/blob/cd1e347950e4a7a7ada7d244ea8dc49b8b5b457a/song.png)
+
 ## Cài đặt
 
 1. Tải `cr_player.js` từ repository GitHub của bạn.
