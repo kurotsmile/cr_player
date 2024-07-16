@@ -120,6 +120,29 @@ cr_player.mediaSession = false;
 
 ```
 
+## set_theme(name_theme)
+
+The set_theme method allows you to set the theme for the *cr_player*. The `name_theme` parameter can take one of the following values:
+
+- `theme_basic_top`: Sets the theme to have the player controls at the top.
+- `theme_basic_bottom`: Sets the theme to have the player controls at the bottom.
+- `theme_dock_left`: Sets the theme to dock the player on the left side.
+- `theme_dock_right`: Sets the theme to dock the player on the right side.
+
+```javascript
+// Set the player theme to have controls at the top
+cr_player.set_theme('theme_basic_top');
+
+// Set the player theme to have controls at the bottom
+cr_player.set_theme('theme_basic_bottom');
+
+// Set the player theme to dock on the left side
+cr_player.set_theme('theme_dock_left');
+
+// Set the player theme to dock on the right side
+cr_player.set_theme('theme_dock_right');
+
+```
 
 ## Contact
 
