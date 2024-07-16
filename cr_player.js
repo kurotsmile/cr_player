@@ -62,10 +62,14 @@ class CR_Player {
 
   upDateInfoLoad() {
 
+    this.audio_player.addEventListener('ended', function() {
+      alert('Audio đã kết thúc');
+    });
+
     this.audio_player.addEventListener("loadeddata", () => {
       let duration = cr_player.audio_player.duration;
       $("#cr_player_timer").attr('max',duration.toFixed(2));
-      //$("#m_time_end").html(carrot.player_media.formatTime(duration));
+      $("#cr_time_info").html(carrot.player_media.formatTime(duration));
     });
 
     this.audio_player.addEventListener('canplaythrough', function () {
@@ -88,6 +92,7 @@ class CR_Player {
 
     this.audio_player.addEventListener("timeupdate", (event) => {
       $("#cr_player_timer").attr('value',cr_player.audio_player.currentTime.toFixed(2));
+      $("#cr_time_info").html(cr_player.formatTime(cr_player.audio_player.currentTime));
     });
 
     this.audio_player.addEventListener('play', function () {
@@ -211,6 +216,7 @@ class CR_Player {
   uiPlayer() {
     if (this.emp_ui_player == null) {
       var html = '<div id="cr_player">';
+      html += '<div id="cr_time_info">00:00:00</div>';
       html += '<img role="button" src="cr_player/song.png" id="cr_song_avatar" onclick="cr_player.show_playlist()"/>';
       html += '<div id="cr_info" class="d-inline mt-2 ml-2">';
       html += '<div id="cr_name">' + this.name_song + '</div>';
@@ -442,5 +448,13 @@ class CR_Player {
   set_color(color){
     this.color_hightlight=color;
   }
+
+  formatTime(seconds) {
+    var minutes = Math.floor(seconds / 60);
+    minutes = (minutes >= 10) ? minutes : "0" + minutes;
+    var seconds = Math.floor(seconds % 60);
+    seconds = (seconds >= 10) ? seconds : "0" + seconds;
+    return minutes + ":" + seconds;
+}
 }
 var cr_player = new CR_Player();

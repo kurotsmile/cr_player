@@ -2,3 +2,8 @@
     top:0px;
     bottom: unset;
 }
+
+#cr_time_info {
+    bottom: 27px;
+    left: 6px;
+}

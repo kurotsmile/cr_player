@@ -38,3 +38,8 @@
     cursor: pointer;
     background-color: unset;
 }
+
+#cr_time_info {
+    bottom: 1px;
+    left: 24px;
+}
