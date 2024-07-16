@@ -127,12 +127,30 @@ class CR_Player {
     this.uiPlayer();
   }
 
-  play_animation(emp){
-  
+  play_emp(emp,is_add=false){
+    var data_song={};
+    var e=$(emp);
+    data_song["name"]=e.attr("cr-name");
+    data_song["url"]=e.attr("cr-url");
+    data_song["artist"]=e.attr("cr-artist");
+    data_song["album"]=e.attr("cr-artist");
+    data_song["avatar"]=e.attr("cr-avatar");
+    data_song["youtube"]=e.attr("cr-youtube");
+    this.start(data_song,is_add);
   }
 
-  start(data){
+  add_emp(emp){
+    this.play_emp(emp,true);
+  }
 
+  start(data,is_add=false){
+    this.name_song=data.name;
+    this.name_singer=data.artist;
+    data["mp3"]=data.url;
+    data["avatar"]=this.path+"/song.png";
+    if(is_add==false) this.list_song = [];
+    this.list_song.push(data);
+    if(this.mediaSession) this.set_mediaSession(data.name,data.artist,"Music For Life",data.avatar);
     this.set_mp3(data.url);
     this.uiPlayer();
   }
