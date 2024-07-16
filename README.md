@@ -185,6 +185,8 @@ cr_player.show_setting();
 
 This guide provides instructions on how to enable and disable the `mediaSession` feature in `cr_player`. The `mediaSession` can be toggled programmatically via commands or manually through the settings interface.
 
+<img src="images/mediaSession.png" alt="cr_player" width="100%" />
+
 ### Enabling/Disabling Media Session Programmatically
 
 You can enable or disable the `mediaSession` feature using the following commands:
