@@ -15,6 +15,7 @@ class CR_Player {
   list_theme=['theme_basic_top','theme_basic_bottom','theme_dock_left','theme_dock_right'];
 
   mediaSession=true;
+  time_step=10;
 
   path="cr_player";
   onCreate() {
@@ -60,11 +61,17 @@ class CR_Player {
 }
 
   upDateInfoLoad() {
+
+    this.audio_player.addEventListener("loadeddata", () => {
+      let duration = cr_player.audio_player.duration;
+      $("#cr_player_timer").attr('max',duration.toFixed(2));
+      //$("#m_time_end").html(carrot.player_media.formatTime(duration));
+    });
+
     this.audio_player.addEventListener('canplaythrough', function () {
       cr_player.audio_player.play();
     }, false);
 
-  
     this.audio_player.addEventListener('progress', function () {
       var buffered = this.buffered;
       if (buffered.length > 0) {
@@ -77,6 +84,10 @@ class CR_Player {
           $("#cr_singer").html(cr_player.name_singer);
           cr_player.checkIconPlay();
       }
+    });
+
+    this.audio_player.addEventListener("timeupdate", (event) => {
+      $("#cr_player_timer").attr('value',cr_player.audio_player.currentTime.toFixed(2));
     });
 
     this.audio_player.addEventListener('play', function () {
@@ -207,9 +218,12 @@ class CR_Player {
       html += '</div>';
       html += '<button onclick="cr_player.playOrPause();" class="btn btn-sm btn-dark ml-2" id="cr_btn_play"><i class="far fa-play-circle"></i></button>';
       html += '<button onclick="cr_player.prev_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_next"><i class="fas fa-step-backward"></i></button>';
+      html += '<button onclick="cr_player.seekbackward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_backward"><i class="fas fa-backward"></i></button>';
+      html += '<button onclick="cr_player.seekforward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_forward"><i class="fas fa-forward"></i></button>';
       html += '<button onclick="cr_player.next_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev"><i class="fas fa-step-forward"></i></button>';
       html += '<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1"><i class="far fa-stop-circle"></i></button>';
       html += '<button onclick="cr_player.show_setting();" class="btn btn-sm btn-dark ml-1 btn-setting"><i class="fas fa-tools"></i></button>';
+      html += '<progress id="cr_player_timer" value="32" max="100"> 32% </progress>';
       html += '</div>';
       this.emp_ui_player = $(html);
       $("body").append(this.emp_ui_player);
@@ -242,6 +256,20 @@ class CR_Player {
     this.hide();
   }
 
+  seekbackward(){
+    var newTime = this.audio_player.currentTime - this.time_step;
+    this.audio_player.currentTime = newTime < 0 ? 0 : newTime;
+  }
+
+  seekforward(){
+    var newTime = this.audio_player.currentTime + this.time_step;
+    this.audio_player.currentTime = newTime < 0 ? 0 : newTime;
+  }
+
+  set_time_step(timer){
+    this.time_step=timer;
+  }
+
   set_mediaSession(s_title, s_artist, s_album, s_url_avatar) {
     if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -267,10 +295,10 @@ class CR_Player {
         cr_player.stop();
       });
       navigator.mediaSession.setActionHandler("seekbackward", () => {
-
+        cr_player.seekbackward();
       });
       navigator.mediaSession.setActionHandler("seekforward", () => {
-
+        cr_player.seekforward();
       });
       navigator.mediaSession.setActionHandler("seekto", () => {
 
