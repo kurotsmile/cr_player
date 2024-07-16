@@ -3,7 +3,7 @@
 
 `cr_player` is a simple music player for websites, making it easy to integrate and use music playback features on your webpage.
 
-<img src="https://github.com/kurotsmile/cr_player/blob/cd1e347950e4a7a7ada7d244ea8dc49b8b5b457a/song.png" alt="cr_player" width="150"/>
+<img src="song.png" alt="cr_player" width="150"/>
 
 ## Installation
 
@@ -123,6 +123,24 @@ cr_player.add_song('https://example.com/music/song2.mp3', 'Song Title', 'Artist 
 ```
 
 I hope this guide helps you easily install and use `cr_player` for your web project. If you have any questions or encounter any issues, please create an issue on GitHub or contact me via email.
+
+## cr_player Media Session Guide
+
+This guide provides instructions on how to enable and disable the `mediaSession` feature in `cr_player`. The `mediaSession` can be toggled programmatically via commands or manually through the settings interface.
+
+### Enabling/Disabling Media Session Programmatically
+
+You can enable or disable the `mediaSession` feature using the following commands:
+
+
+```javascript
+//Enable Media Session
+cr_player.mediaSession = true;
+
+//Disable Media Session
+cr_player.mediaSession = fale;
+```
+
 
 ## Contact
 
