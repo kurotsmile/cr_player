@@ -9,23 +9,8 @@
 
 1. Download `cr_player.js` from your GitHub repository.
 2. Add the `cr_player.js` file to your web project.
-3. Add the `Swal2` and `FontAwesome v5` libraries to your project:
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
-    <!-- Add Swal2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Add FontAwesome v5 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<body>
-    <!-- Add other HTML elements here -->
-
     <!-- Load cr_player.js -->
     <script src="path/to/cr_player.js"></script>
     <script>
@@ -35,9 +20,7 @@
         // Example: Play an audio file
         cr_player.play('url/to/your/audiofile.mp3');
     </script>
-</body>
-</html>
-```
+````
 
 ### Introduction
 
@@ -70,15 +53,10 @@ Here is a complete example of how to use `cr_player` on your website:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
-    <!-- Add Swal2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Add FontAwesome v5 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <h1>Welcome to My Music Player</h1>
     <button onclick="cr_player.play('url/to/your/audiofile.mp3')">Play Music</button>
-
     <!-- Load cr_player.js -->
     <script src="path/to/cr_player.js"></script>
     <script>
@@ -138,7 +116,8 @@ You can enable or disable the `mediaSession` feature using the following command
 cr_player.mediaSession = true;
 
 //Disable Media Session
-cr_player.mediaSession = fale;
+cr_player.mediaSession = false;
+
 ```
 
 
@@ -146,5 +125,15 @@ cr_player.mediaSession = fale;
 
 - Email: [tranthienthanh93@gmail.com](mailto:tranthienthanh93@gmail.com)
 - Email: [tranrot93@gmail.com](mailto:tranrot93@gmail.com)
+
+## Donation 
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/T6T210E258)
+
+ `Donation`: Please support me with a portion of the costs to maintain the server and services for everyone 
+
+[![Donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/paypalme/kurotsmile)
+
+## Thanks
 
 Thank you for using `cr_player`!

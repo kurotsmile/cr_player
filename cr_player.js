@@ -28,8 +28,22 @@ class CR_Player {
     }
     $('head').append('<link rel="stylesheet" type="text/css" href="cr_player/theme.css">');
     $('head').append('<link id="'+this.theme+'" rel="stylesheet" type="text/css" href="cr_player/' + this.theme + '.css">');
+    if (typeof Swal == 'undefined') $('head').append('<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>');
+
+    if(this.isLinkLoaded('all.min.css')==false) $('head').append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
+
     this.upDateInfoLoad();
   }
+
+  isLinkLoaded(s_link){
+    const links = document.getElementsByTagName('link');
+    for (let i = 0; i < links.length; i++) {
+        if (links[i].href && links[i].href.includes(s_link)) {
+            return true;
+        }
+    }
+    return false;
+}
 
   upDateInfoLoad() {
     this.audio_player.addEventListener('canplaythrough', function () {
@@ -104,7 +118,7 @@ class CR_Player {
   }
 
   start(data){
-    
+
     this.set_mp3(data.url);
     this.uiPlayer();
   }
