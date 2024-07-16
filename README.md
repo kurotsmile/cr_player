@@ -99,8 +99,84 @@ cr_player.add_song(url_mp3, name, artist);
 // Example
 cr_player.add_song('https://example.com/music/song2.mp3', 'Song Title', 'Artist Name');
 ```
+## Control Methods
 
-I hope this guide helps you easily install and use `cr_player` for your web project. If you have any questions or encounter any issues, please create an issue on GitHub or contact me via email.
+Below are the methods available for controlling the playback and settings of `cr_player`.
+
+### playOrPause()
+
+Toggles between playing and pausing the current audio.
+
+```javascript
+cr_player.playOrPause();
+```
+
+### next_song()
+
+Plays the next song in the playlist.
+
+```javascript
+cr_player.next_song();
+```
+
+### prev_song()
+
+Plays the previous song in the playlist.
+
+```javascript
+cr_player.prev_song();
+```
+
+### seekbackward()
+
+Seeks backward by a set amount of time.
+
+```javascript
+cr_player.seekbackward();
+```
+
+### seekforward()
+
+Seeks forward by a set amount of time.
+
+```javascript
+cr_player.seekforward();
+```
+
+### set_time_step(timer)
+
+Sets the time step for seeking forward or backward.
+
+*Parameters:*
+
+- `timer` (Number): The amount of time (in seconds) to seek forward or backward.
+
+```javascript
+cr_player.set_time_step(10);
+```
+
+### stop()
+
+Stops the current audio and resets the playback position to the beginning.
+
+```javascript
+cr_player.stop();
+```
+
+### show_playlist()
+
+Displays the playlist.
+
+```javascript
+cr_player.show_playlist();
+```
+### show_setting()
+
+Displays the settings menu.
+
+```javascript
+cr_player.show_setting();
+```
 
 ## cr_player Media Session Guide
 
@@ -145,6 +221,8 @@ cr_player.set_theme('theme_dock_right');
 ```
 
 ## Contact
+
+I hope this guide helps you easily install and use `cr_player` for your web project. If you have any questions or encounter any issues, please create an issue on GitHub or contact me via email.
 
 - Email: [tranthienthanh93@gmail.com](mailto:tranthienthanh93@gmail.com)
 - Email: [tranrot93@gmail.com](mailto:tranrot93@gmail.com)
