@@ -12,11 +12,20 @@ class CR_Player {
   list_song = [];
   index_play_cur = 0;
 
-  list_theme=['theme_basic_top','theme_basic_bottom','theme_dock_left'];
+  list_theme=['theme_basic_top','theme_basic_bottom','theme_dock_left','theme_dock_right'];
 
+  mediaSession=true;
+
+  path="cr_player";
   onCreate() {
     this.audio_player = new Audio();
     if(localStorage.getItem("cr_player_theme")!=null) this.theme=localStorage.getItem("cr_player_theme");
+    if(localStorage.getItem("mediaSession")!=null){
+      if(localStorage.getItem("mediaSession")=="true")
+        this.mediaSession=true;
+      else
+        this.mediaSession=false;
+    }
     $('head').append('<link rel="stylesheet" type="text/css" href="cr_player/theme.css">');
     $('head').append('<link id="'+this.theme+'" rel="stylesheet" type="text/css" href="cr_player/' + this.theme + '.css">');
     this.upDateInfoLoad();
@@ -62,6 +71,7 @@ class CR_Player {
     this.list_song = [];
     var obj_data = { "mp3": url_mp3, "name": "Song " + this.list_song.length, "artist": "Carrot Player Music" };
     this.list_song.push(obj_data);
+    if(this.mediaSession) this.set_mediaSession(obj_data.name,obj_data.artist,"Music For Life",this.path+"/song.png");
     this.set_mp3(url_mp3);
     this.uiPlayer();
   }
@@ -72,6 +82,7 @@ class CR_Player {
     var obj_data = { "mp3": url_mp3, "name": name_song, "artist": "Carrot Player Music" };
     this.list_song.push(obj_data);
     this.name_song = name_song;
+    if(this.mediaSession) this.set_mediaSession(obj_data.name,obj_data.artist,"Music For Life",this.path+"/song.png");
     this.set_mp3(url_mp3);
     this.uiPlayer();
   }
@@ -83,7 +94,18 @@ class CR_Player {
     this.list_song.push(obj_data);
     this.name_song = name_song;
     this.name_singer = name_singer;
+    if(this.mediaSession) this.set_mediaSession(obj_data.name,obj_data.artist,"Music For Life",this.path+"/song.png");
     this.set_mp3(url_mp3);
+    this.uiPlayer();
+  }
+
+  play_animation(emp){
+  
+  }
+
+  start(data){
+    
+    this.set_mp3(data.url);
     this.uiPlayer();
   }
 
@@ -190,13 +212,13 @@ class CR_Player {
       });
 
       navigator.mediaSession.setActionHandler("play", () => {
-        cr_player.audio_player.play();
+        cr_player.playOrPause();
       });
       navigator.mediaSession.setActionHandler("pause", () => {
-        cr_player.audio_player.pause();
+        cr_player.playOrPause();
       });
       navigator.mediaSession.setActionHandler("stop", () => {
-        cr_player.audio_player.stop();
+        cr_player.stop();
       });
       navigator.mediaSession.setActionHandler("seekbackward", () => {
 
@@ -208,10 +230,10 @@ class CR_Player {
 
       });
       navigator.mediaSession.setActionHandler("previoustrack", () => {
-        cr_player.audio_player.prev();
+        cr_player.prev_song();
       });
       navigator.mediaSession.setActionHandler("nexttrack", () => {
-        cr_player.audio_player.next();
+        cr_player.next_song();
       });
     }
   }
@@ -238,6 +260,16 @@ class CR_Player {
       html+='<select class="form-control" id="dropdown_theme"><select>';
       html+='<small class="form-text text-muted">Change the style of the music player</small>';
     html+='</div>';
+
+    html+='<div class="form-group">';
+      html+='<label for="mediaSession"><i class="fas fa-pager"></i> Media Session</label>';
+      html+='<select class="form-control" id="mediaSession">';
+      html+='<option value="true" '+(cr_player.mediaSession === true ? "selected='true'" : "") +'>On</option>';
+      html+='<option value="false" '+(cr_player.mediaSession === false ? "selected='true'" : "") +'>Off</option>';
+      html+='<select>';
+      html+='<small class="form-text text-muted">Turn on the media Session function so that songs are not interrupted when switching browser tabs</small>';
+    html+='</div>';
+
     swal.fire({
       title: "Setting",
       html: html,
@@ -261,6 +293,11 @@ class CR_Player {
             });
             $('head').append('<link id="'+cr_player.theme+'" rel="stylesheet" type="text/css" href="cr_player/' + cr_player.theme + '.css">');
           }
+
+          var mediaSession_status=$("#mediaSession").val();
+          if(mediaSession_status=="true") cr_player.mediaSession=true;
+          else cr_player.mediaSession=false;
+          localStorage.setItem("mediaSession",mediaSession_status);
       }
     });
   }
