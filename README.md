@@ -5,7 +5,7 @@
 
 <img src="song.png" alt="cr_player" width="150"/>
 
-## Installation
+### Installation
 
 1. Download `cr_player.js` from your GitHub repository.
 2. Add the `cr_player.js` file to your web project.
@@ -22,9 +22,12 @@
     </script>
 ````
 
-### Introduction
+## The main and important method
 
-`cr_player` provides functions to create and play music on your website.
+<img src="images/control.png" alt="cr_player" />
+
+
+>`cr_player`  has two basic methods to play a song. Additionally, if you want other customizations and upgrades that this player can provide, please take the time to read through this guide to better understand it.
 
 #### `cr_player.onCreate()`
 

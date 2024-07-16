@@ -20,14 +20,21 @@
     font-size: 100%;
 }
 
+#cr_player .btn {
+    margin-top: 9px;
+    background-color: black;
+    padding: 4px;
+}
+
 #cr_player .btn-setting {
     float: right;
     margin-right: 15px;
     position: absolute;
     right: -12px;
-    top: -10px;
+    top: -8px;
     font-size: 13px;
     border: none;
     z-index: 200;
     cursor: pointer;
+    background-color: unset;
 }
