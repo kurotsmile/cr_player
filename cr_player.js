@@ -28,11 +28,25 @@ class CR_Player {
     }
     $('head').append('<link rel="stylesheet" type="text/css" href="cr_player/theme.css">');
     $('head').append('<link id="'+this.theme+'" rel="stylesheet" type="text/css" href="cr_player/' + this.theme + '.css">');
-    if (typeof Swal == 'undefined') $('head').append('<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>');
 
-    if(this.isLinkLoaded('all.min.css')==false) $('head').append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-
+    if (typeof jQuery == 'undefined') this.addJs('https://code.jquery.com/jquery-3.6.0.min.js');
+    if (typeof Swal == 'undefined') this.addJs('https://cdn.jsdelivr.net/npm/sweetalert2@11');
+    if(this.isLinkLoaded('all.min.css')==false) this.addCss('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
     this.upDateInfoLoad();
+  }
+
+  addJs(url){
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;;
+    document.head.appendChild(script);
+  }
+
+  addCss(url) {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = url;
+    document.head.appendChild(link);
   }
 
   isLinkLoaded(s_link){
@@ -300,12 +314,8 @@ class CR_Player {
       if(result.isConfirmed){
           var new_theme_val=$("#dropdown_theme").val();
           if(new_theme_val!=cr_player.theme){
-            cr_player.theme=new_theme_val;
+            cr_player.set_theme(new_theme_val);
             localStorage.setItem("cr_player_theme",cr_player.theme);
-            $(cr_player.list_theme).each(function(index,th){
-              $("#"+th).remove();
-            });
-            $('head').append('<link id="'+cr_player.theme+'" rel="stylesheet" type="text/css" href="cr_player/' + cr_player.theme + '.css">');
           }
 
           var mediaSession_status=$("#mediaSession").val();
@@ -314,6 +324,14 @@ class CR_Player {
           localStorage.setItem("mediaSession",mediaSession_status);
       }
     });
+  }
+
+  set_theme(name_theme){
+    cr_player.theme=name_theme;
+    $(cr_player.list_theme).each(function(index,th){
+      $("#"+th).remove();
+    });
+    $('head').append('<link id="'+name_theme+'" rel="stylesheet" type="text/css" href="cr_player/' + name_theme + '.css">');
   }
 
   next_song() {
