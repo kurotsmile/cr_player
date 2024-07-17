@@ -10,14 +10,34 @@ class CR_Player {
   name_singer = "Music Player";
 
   list_song = [];
-  index_play_cur = 0;
+  index_play_cur=0;
+  index_loop_cur=0;
 
-  list_theme=['theme_basic_top','theme_basic_bottom','theme_dock_left','theme_dock_right'];
+  list_theme=[
+    'theme_basic_top',
+    'theme_basic_bottom',
+    'theme_dock_left',
+    'theme_dock_right',
+    'theme_chill_beats'
+  ];
 
   mediaSession=true;
   time_step=10;
 
   path="cr_player";
+
+  list_loop_id=[
+    'loop_all',
+    'loop_one',
+    'loop_random'
+  ];
+
+  list_loop_icon=[
+    '<i class="fas fa-undo"></i>',
+    '<i class="fab fa-stumbleupon-circle"></i>',
+    '<i class="fas fa-random"></i>'
+  ];
+
   onCreate() {
     this.audio_player = new Audio();
     if(localStorage.getItem("cr_player_theme")!=null) this.theme=localStorage.getItem("cr_player_theme");
@@ -63,13 +83,13 @@ class CR_Player {
   upDateInfoLoad() {
 
     this.audio_player.addEventListener('ended', function() {
-      alert('Audio đã kết thúc');
+      //alert('Audio đã kết thúc');
     });
 
     this.audio_player.addEventListener("loadeddata", () => {
       let duration = cr_player.audio_player.duration;
       $("#cr_player_timer").attr('max',duration.toFixed(2));
-      $("#cr_time_info").html(carrot.player_media.formatTime(duration));
+      $("#cr_time_info").html(cr_player.formatTime(duration));
     });
 
     this.audio_player.addEventListener('canplaythrough', function () {
@@ -227,7 +247,8 @@ class CR_Player {
       html += '<button onclick="cr_player.seekbackward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_backward"><i class="fas fa-backward"></i></button>';
       html += '<button onclick="cr_player.seekforward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_forward"><i class="fas fa-forward"></i></button>';
       html += '<button onclick="cr_player.next_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev"><i class="fas fa-step-forward"></i></button>';
-      html += '<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1"><i class="far fa-stop-circle"></i></button>';
+      html += '<button onclick="cr_player.loop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_loop"><i class="fas fa-undo"></i></button>';
+      html += '<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1 btn-stop"><i class="far fa-stop-circle"></i></button>';
       html += '<button onclick="cr_player.show_setting();" class="btn btn-sm btn-dark ml-1 btn-setting"><i class="fas fa-tools"></i></button>';
       html += '<progress id="cr_player_timer" value="32" max="100"> 32% </progress>';
       html += '</div>';
@@ -323,6 +344,16 @@ class CR_Player {
       this.audio_player.play();
     else
       this.audio_player.pause();
+    this.checkIconPlay();
+  }
+
+  btn_play(){
+    this.audio_player.play();
+    this.checkIconPlay();
+  }
+
+  pause(){
+    this.audio_player.pause();
     this.checkIconPlay();
   }
 
@@ -455,6 +486,17 @@ class CR_Player {
     var seconds = Math.floor(seconds % 60);
     seconds = (seconds >= 10) ? seconds : "0" + seconds;
     return minutes + ":" + seconds;
-}
+  }
+
+  loop(){
+    this.index_loop_cur++;
+    if(this.index_loop_cur>=this.list_loop_id.length) this.index_loop_cur=0;
+    $("#cr_btn_loop").html(this.list_loop_icon[this.index_loop_cur]);
+    swal.fire({
+      title:"Loop Song",
+      text:cr_player.list_loop_id[cr_player.index_loop_cur],
+      confirmButtonColor: cr_player.color_hightlight
+    });
+  }
 }
 var cr_player = new CR_Player();

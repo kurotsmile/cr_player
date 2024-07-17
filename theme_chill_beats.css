@@ -1,0 +1,116 @@
+#cr_player{
+    width: 285px;
+    top: unset;
+    bottom: 10px;
+    right: 10px;
+    left: unset;
+    height: 86px;
+    background-color: white;
+    box-shadow:0.2px 0.2px 4px 0px #00000082
+}
+
+#cr_song_avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 66px;
+    position: absolute;
+    left: 8px;
+    bottom: 9px;
+}
+
+#cr_name{
+    color: black;
+}
+
+#cr_name,#cr_singer{
+    font-size: 100%;
+}
+
+#cr_player .btn {
+    background-color: black;
+    padding: 4px;
+    border-radius: 73px;
+}
+
+#cr_info {
+    width: 184px;
+    position: absolute;
+    left: 63px;
+}
+
+
+#cr_time_info {
+    position: absolute;
+    bottom: 59px;
+    left: 4px;
+    padding: 5px;
+    border-radius: 9px;
+    font-size: 8px;
+    font-family: monospace;
+    color: #838383;
+    text-shadow: unset;
+}
+
+#cr_player .btn {
+    background-color: #ededed;
+    padding: 2px;
+    border-radius: 60px;
+    width: 25px;
+    height: 25px;
+    border: none;
+    position: absolute;
+    bottom: 8px;
+    font-size: 9px;
+    color: black;
+}
+
+#cr_player .btn:hover{
+    background-color: black;
+    color: rgb(219, 125, 248);
+    text-shadow: 1px 1px 3px rgba( 255, 0, 0, 0.6 );
+}
+
+#cr_player #cr_btn_play {
+    border-radius: 138px;
+    position: absolute;
+    left: 8px;
+    bottom: 16px;
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+}
+
+#cr_player .btn-setting {
+    right: 5px;
+    margin-right: unset;
+    float: unset;
+}
+
+#cr_player .btn-stop{
+    right: 37px;
+}
+
+#cr_player #cr_btn_loop {
+    right: 69px;
+}
+
+#cr_player #cr_btn_prev {
+    right: 101px;
+}
+
+#cr_player #cr_btn_forward {
+    right: 133px;
+}
+
+#cr_player #cr_btn_next {
+    right: 196px;
+}
+
+button#cr_btn_backward {
+    right: 164px;
+}
+
+#cr_player_timer{
+    top: 0px;
+    bottom: unset;
+}
