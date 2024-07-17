@@ -114,3 +114,23 @@ button#cr_btn_backward {
     top: 0px;
     bottom: unset;
 }
+
+#cr_time_length{
+ 
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        color: rebeccapurple;
+        font-size: 10px;
+}
+
+#cr_video {
+    position: absolute;
+    background-color: black;
+    width: 285px;
+    height: 147px;
+    bottom: 86px;
+    background: url('song.png');
+    background-position: 50% 50%;
+    background-size: cover;
+}

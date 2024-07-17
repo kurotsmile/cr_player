@@ -7,3 +7,16 @@
     bottom: 27px;
     left: 6px;
 }
+
+#cr_time_length{
+    position: absolute;
+    top: 22px;
+    font-size: 10px;
+    left: 15px;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+}
+
+#cr_video {
+    display: none;
+}

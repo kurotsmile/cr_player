@@ -83,13 +83,18 @@ class CR_Player {
   upDateInfoLoad() {
 
     this.audio_player.addEventListener('ended', function() {
-      //alert('Audio đã kết thúc');
+      if(this.index_loop_cur==0) cr_player.next_song();
+      if(this.index_loop_cur==1) cr_player.pause();
+      if(this.index_loop_cur==2) {
+        var index_random = Math.floor(Math.random() * cr_player.list_song.length);
+        cr_player.play_by_index(index_random);
+      }
     });
 
     this.audio_player.addEventListener("loadeddata", () => {
       let duration = cr_player.audio_player.duration;
       $("#cr_player_timer").attr('max',duration.toFixed(2));
-      $("#cr_time_info").html(cr_player.formatTime(duration));
+      $("#cr_time_length").html(cr_player.formatTime(duration));
     });
 
     this.audio_player.addEventListener('canplaythrough', function () {
@@ -237,20 +242,22 @@ class CR_Player {
     if (this.emp_ui_player == null) {
       var html = '<div id="cr_player">';
       html += '<div id="cr_time_info">00:00:00</div>';
+      html += '<div id="cr_time_length">00:00:00</div>';
       html += '<img role="button" src="cr_player/song.png" id="cr_song_avatar" onclick="cr_player.show_playlist()"/>';
       html += '<div id="cr_info" class="d-inline mt-2 ml-2">';
       html += '<div id="cr_name">' + this.name_song + '</div>';
       html += '<div id="cr_singer" style="color:' + this.color_hightlight + '">' + this.name_singer + '</div>';
       html += '</div>';
-      html += '<button onclick="cr_player.playOrPause();" class="btn btn-sm btn-dark ml-2" id="cr_btn_play"><i class="far fa-play-circle"></i></button>';
-      html += '<button onclick="cr_player.prev_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_next"><i class="fas fa-step-backward"></i></button>';
-      html += '<button onclick="cr_player.seekbackward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_backward"><i class="fas fa-backward"></i></button>';
-      html += '<button onclick="cr_player.seekforward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_forward"><i class="fas fa-forward"></i></button>';
-      html += '<button onclick="cr_player.next_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev"><i class="fas fa-step-forward"></i></button>';
-      html += '<button onclick="cr_player.loop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_loop"><i class="fas fa-undo"></i></button>';
-      html += '<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1 btn-stop"><i class="far fa-stop-circle"></i></button>';
-      html += '<button onclick="cr_player.show_setting();" class="btn btn-sm btn-dark ml-1 btn-setting"><i class="fas fa-tools"></i></button>';
+      html += '<button onclick="cr_player.playOrPause();" class="btn btn-sm btn-dark ml-2" id="cr_btn_play" title="Play Or Pause"><i class="far fa-play-circle"></i></button>';
+      html += '<button onclick="cr_player.prev_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_next" title="Next Song"><i class="fas fa-step-backward"></i></button>';
+      html += '<button onclick="cr_player.seekbackward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_backward" title="Backward"><i class="fas fa-backward"></i></button>';
+      html += '<button onclick="cr_player.seekforward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_forward" title="Forward"><i class="fas fa-forward"></i></button>';
+      html += '<button onclick="cr_player.next_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev" title="Prev Song"><i class="fas fa-step-forward"></i></button>';
+      html += '<button onclick="cr_player.loop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_loop" title="Loop"><i class="fas fa-undo"></i></button>';
+      html += '<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1 btn-stop" title="Stop"><i class="far fa-stop-circle"></i></button>';
+      html += '<button onclick="cr_player.show_setting();" class="btn btn-sm btn-dark ml-1 btn-setting" title="Setting"><i class="fas fa-tools"></i></button>';
       html += '<progress id="cr_player_timer" value="32" max="100"> 32% </progress>';
+      html += '<div id="cr_video"></div>';
       html += '</div>';
       this.emp_ui_player = $(html);
       $("body").append(this.emp_ui_player);
@@ -259,6 +266,7 @@ class CR_Player {
       $(this.emp_ui_player).fadeIn(500);
       this.updateMetaInfo();
     }
+    $("[title]").tooltip();
   }
 
   updateMetaInfo() {

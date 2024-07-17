@@ -43,3 +43,7 @@
     bottom: 1px;
     left: 24px;
 }
+
+#cr_time_length,#cr_video {
+    display: none;
+}
