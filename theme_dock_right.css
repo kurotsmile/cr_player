@@ -39,6 +39,10 @@
     background-color: unset;
 }
 
+#cr_player .btn.btn-playlist{
+    display: none;
+}
+
 #cr_time_info {
     bottom: 1px;
     left: 24px;

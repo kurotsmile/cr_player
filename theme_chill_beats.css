@@ -86,6 +86,11 @@
     float: unset;
 }
 
+#cr_player .btn-playlist{
+    right: 5px;
+    bottom: 37px;
+}
+
 #cr_player .btn-stop{
     right: 37px;
 }

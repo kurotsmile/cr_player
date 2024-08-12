@@ -255,6 +255,7 @@ class CR_Player {
       html += '<button onclick="cr_player.next_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev" title="Prev Song"><i class="fas fa-step-forward"></i></button>';
       html += '<button onclick="cr_player.loop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_loop" title="Loop"><i class="fas fa-undo"></i></button>';
       html += '<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1 btn-stop" title="Stop"><i class="far fa-stop-circle"></i></button>';
+      html += '<button onclick="cr_player.show_playlist();" class="btn btn-sm btn-dark ml-1 btn-playlist" title="Playlist"><i class="fas fa-list-alt"></i></button>';
       html += '<button onclick="cr_player.show_setting();" class="btn btn-sm btn-dark ml-1 btn-setting" title="Setting"><i class="fas fa-tools"></i></button>';
       html += '<progress id="cr_player_timer" value="32" max="100"> 32% </progress>';
       html += '<div id="cr_video"></div>';
@@ -438,9 +439,6 @@ class CR_Player {
   }
 
   show_playlist() {
-    if (this.list_song.length == 1) {
-      this.playOrPause();
-    } else {
       var html = '<center class="text-center w-100 d-block" style="width:100%"><table style="width:100%" class="table table-striped table-hover table-responsive fs-9 w-100 text-break"><tbody style="width:100%" id="box_list_song"></tbody></table></center>';
       swal.fire({
         title: "Playlist",
@@ -480,8 +478,7 @@ class CR_Player {
             $("#box_list_song").append(item_box);
           });
         }
-      })
-    }
+      });
   }
 
   set_color(color){
