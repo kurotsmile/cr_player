@@ -10,10 +10,10 @@ class CR_Player {
   name_singer = "Music Player";
 
   list_song = [];
-  index_play_cur=0;
-  index_loop_cur=0;
+  index_play_cur = 0;
+  index_loop_cur = 0;
 
-  list_theme=[
+  list_theme = [
     'theme_basic_top',
     'theme_basic_bottom',
     'theme_dock_left',
@@ -21,18 +21,18 @@ class CR_Player {
     'theme_chill_beats'
   ];
 
-  mediaSession=true;
-  time_step=10;
+  mediaSession = true;
+  time_step = 10;
 
-  path="cr_player";
+  path = "cr_player";
 
-  list_loop_id=[
+  list_loop_id = [
     'loop_all',
     'loop_one',
     'loop_random'
   ];
 
-  list_loop_icon=[
+  list_loop_icon = [
     '<i class="fas fa-undo"></i>',
     '<i class="fab fa-stumbleupon-circle"></i>',
     '<i class="fas fa-random"></i>'
@@ -40,23 +40,23 @@ class CR_Player {
 
   onCreate() {
     this.audio_player = new Audio();
-    if(localStorage.getItem("cr_player_theme")!=null) this.theme=localStorage.getItem("cr_player_theme");
-    if(localStorage.getItem("mediaSession")!=null){
-      if(localStorage.getItem("mediaSession")=="true")
-        this.mediaSession=true;
+    if (localStorage.getItem("cr_player_theme") != null) this.theme = localStorage.getItem("cr_player_theme");
+    if (localStorage.getItem("mediaSession") != null) {
+      if (localStorage.getItem("mediaSession") == "true")
+        this.mediaSession = true;
       else
-        this.mediaSession=false;
+        this.mediaSession = false;
     }
     $('head').append('<link rel="stylesheet" type="text/css" href="cr_player/theme.css">');
-    $('head').append('<link id="'+this.theme+'" rel="stylesheet" type="text/css" href="cr_player/' + this.theme + '.css">');
+    $('head').append('<link id="' + this.theme + '" rel="stylesheet" type="text/css" href="cr_player/' + this.theme + '.css">');
 
     if (typeof jQuery == 'undefined') this.addJs('https://code.jquery.com/jquery-3.6.0.min.js');
     if (typeof Swal == 'undefined') this.addJs('https://cdn.jsdelivr.net/npm/sweetalert2@11');
-    if(this.isLinkLoaded('all.min.css')==false) this.addCss('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+    if (this.isLinkLoaded('all.min.css') == false) this.addCss('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
     this.upDateInfoLoad();
   }
 
-  addJs(url){
+  addJs(url) {
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;;
@@ -70,22 +70,22 @@ class CR_Player {
     document.head.appendChild(link);
   }
 
-  isLinkLoaded(s_link){
+  isLinkLoaded(s_link) {
     const links = document.getElementsByTagName('link');
     for (let i = 0; i < links.length; i++) {
-        if (links[i].href && links[i].href.includes(s_link)) {
-            return true;
-        }
+      if (links[i].href && links[i].href.includes(s_link)) {
+        return true;
+      }
     }
     return false;
-}
+  }
 
   upDateInfoLoad() {
 
-    this.audio_player.addEventListener('ended', function() {
-      if(this.index_loop_cur==0) cr_player.next_song();
-      if(this.index_loop_cur==1) cr_player.pause();
-      if(this.index_loop_cur==2) {
+    this.audio_player.addEventListener('ended', function () {
+      if (this.index_loop_cur == 0) cr_player.next_song();
+      if (this.index_loop_cur == 1) cr_player.pause();
+      if (this.index_loop_cur == 2) {
         var index_random = Math.floor(Math.random() * cr_player.list_song.length);
         cr_player.play_by_index(index_random);
       }
@@ -93,7 +93,7 @@ class CR_Player {
 
     this.audio_player.addEventListener("loadeddata", () => {
       let duration = cr_player.audio_player.duration;
-      $("#cr_player_timer").attr('max',duration.toFixed(2));
+      $("#cr_player_timer").attr('max', duration.toFixed(2));
       $("#cr_time_length").html(cr_player.formatTime(duration));
     });
 
@@ -109,14 +109,14 @@ class CR_Player {
         $("#cr_btn_play").html('<i class="fas fa-spinner fa-spin"></i>');
       }
 
-      if (cr_player.audio_player.readyState >= 2){
-          $("#cr_singer").html(cr_player.name_singer);
-          cr_player.checkIconPlay();
+      if (cr_player.audio_player.readyState >= 2) {
+        $("#cr_singer").html(cr_player.name_singer);
+        cr_player.checkIconPlay();
       }
     });
 
     this.audio_player.addEventListener("timeupdate", (event) => {
-      $("#cr_player_timer").attr('value',cr_player.audio_player.currentTime.toFixed(2));
+      $("#cr_player_timer").attr('value', cr_player.audio_player.currentTime.toFixed(2));
       $("#cr_time_info").html(cr_player.formatTime(cr_player.audio_player.currentTime));
     });
 
@@ -140,7 +140,7 @@ class CR_Player {
     this.list_song = [];
     var obj_data = { "mp3": url_mp3, "name": "Song " + this.list_song.length, "artist": "Carrot Player Music" };
     this.list_song.push(obj_data);
-    if(this.mediaSession) this.set_mediaSession(obj_data.name,obj_data.artist,"Music For Life",this.path+"/song.png");
+    if (this.mediaSession) this.set_mediaSession(obj_data.name, obj_data.artist, "Music For Life", this.path + "/song.png");
     this.set_mp3(url_mp3);
     this.uiPlayer();
   }
@@ -151,7 +151,7 @@ class CR_Player {
     var obj_data = { "mp3": url_mp3, "name": name_song, "artist": "Carrot Player Music" };
     this.list_song.push(obj_data);
     this.name_song = name_song;
-    if(this.mediaSession) this.set_mediaSession(obj_data.name,obj_data.artist,"Music For Life",this.path+"/song.png");
+    if (this.mediaSession) this.set_mediaSession(obj_data.name, obj_data.artist, "Music For Life", this.path + "/song.png");
     this.set_mp3(url_mp3);
     this.uiPlayer();
   }
@@ -163,35 +163,35 @@ class CR_Player {
     this.list_song.push(obj_data);
     this.name_song = name_song;
     this.name_singer = name_singer;
-    if(this.mediaSession) this.set_mediaSession(obj_data.name,obj_data.artist,"Music For Life",this.path+"/song.png");
+    if (this.mediaSession) this.set_mediaSession(obj_data.name, obj_data.artist, "Music For Life", this.path + "/song.png");
     this.set_mp3(url_mp3);
     this.uiPlayer();
   }
 
-  play_emp(emp,is_add=false){
-    var data_song={};
-    var e=$(emp);
-    data_song["name"]=e.attr("cr-name");
-    data_song["url"]=e.attr("cr-url");
-    data_song["artist"]=e.attr("cr-artist");
-    data_song["album"]=e.attr("cr-artist");
-    data_song["avatar"]=e.attr("cr-avatar");
-    data_song["youtube"]=e.attr("cr-youtube");
-    this.start(data_song,is_add);
+  play_emp(emp, is_add = false) {
+    var data_song = {};
+    var e = $(emp);
+    data_song["name"] = e.attr("cr-name");
+    data_song["url"] = e.attr("cr-url");
+    data_song["artist"] = e.attr("cr-artist");
+    data_song["album"] = e.attr("cr-artist");
+    data_song["avatar"] = e.attr("cr-avatar");
+    data_song["youtube"] = e.attr("cr-youtube");
+    this.start(data_song, is_add);
   }
 
-  add_emp(emp){
-    this.play_emp(emp,true);
+  add_emp(emp) {
+    this.play_emp(emp, true);
   }
 
-  start(data,is_add=false){
-    this.name_song=data.name;
-    this.name_singer=data.artist;
-    data["mp3"]=data.url;
-    data["avatar"]=this.path+"/song.png";
-    if(is_add==false) this.list_song = [];
+  start(data, is_add = false) {
+    this.name_song = data.name;
+    this.name_singer = data.artist;
+    data["mp3"] = data.url;
+    data["avatar"] = this.path + "/song.png";
+    if (is_add == false) this.list_song = [];
     this.list_song.push(data);
-    if(this.mediaSession) this.set_mediaSession(data.name,data.artist,"Music For Life",data.avatar);
+    if (this.mediaSession) this.set_mediaSession(data.name, data.artist, "Music For Life", data.avatar);
     this.set_mp3(data.url);
     this.uiPlayer();
   }
@@ -287,23 +287,23 @@ class CR_Player {
   }
 
   stop() {
-    this.list_song=[];
+    this.list_song = [];
     this.audio_player.pause();
     this.hide();
   }
 
-  seekbackward(){
+  seekbackward() {
     var newTime = this.audio_player.currentTime - this.time_step;
     this.audio_player.currentTime = newTime < 0 ? 0 : newTime;
   }
 
-  seekforward(){
+  seekforward() {
     var newTime = this.audio_player.currentTime + this.time_step;
     this.audio_player.currentTime = newTime < 0 ? 0 : newTime;
   }
 
-  set_time_step(timer){
-    this.time_step=timer;
+  set_time_step(timer) {
+    this.time_step = timer;
   }
 
   set_mediaSession(s_title, s_artist, s_album, s_url_avatar) {
@@ -356,12 +356,12 @@ class CR_Player {
     this.checkIconPlay();
   }
 
-  btn_play(){
+  btn_play() {
     this.audio_player.play();
     this.checkIconPlay();
   }
 
-  pause(){
+  pause() {
     this.audio_player.pause();
     this.checkIconPlay();
   }
@@ -374,115 +374,115 @@ class CR_Player {
   }
 
   show_setting() {
-    var html='';
-    html+='<div class="form-group">';
-      html+='<label for="unlockallmp3"><i class="fas fa-brush"></i> Interface and themes</label>';
-      html+='<select class="form-control" id="dropdown_theme"><select>';
-      html+='<small class="form-text text-muted">Change the style of the music player</small>';
-    html+='</div>';
+    var html = '';
+    html += '<div class="form-group">';
+    html += '<label for="unlockallmp3"><i class="fas fa-brush"></i> Interface and themes</label>';
+    html += '<select class="form-control" id="dropdown_theme"><select>';
+    html += '<small class="form-text text-muted">Change the style of the music player</small>';
+    html += '</div>';
 
-    html+='<div class="form-group">';
-      html+='<label for="mediaSession"><i class="fas fa-pager"></i> Media Session</label>';
-      html+='<select class="form-control" id="mediaSession">';
-      html+='<option value="true" '+(cr_player.mediaSession === true ? "selected='true'" : "") +'>On</option>';
-      html+='<option value="false" '+(cr_player.mediaSession === false ? "selected='true'" : "") +'>Off</option>';
-      html+='<select>';
-      html+='<small class="form-text text-muted">Turn on the media Session function so that songs are not interrupted when switching browser tabs</small>';
-    html+='</div>';
+    html += '<div class="form-group">';
+    html += '<label for="mediaSession"><i class="fas fa-pager"></i> Media Session</label>';
+    html += '<select class="form-control" id="mediaSession">';
+    html += '<option value="true" ' + (cr_player.mediaSession === true ? "selected='true'" : "") + '>On</option>';
+    html += '<option value="false" ' + (cr_player.mediaSession === false ? "selected='true'" : "") + '>Off</option>';
+    html += '<select>';
+    html += '<small class="form-text text-muted">Turn on the media Session function so that songs are not interrupted when switching browser tabs</small>';
+    html += '</div>';
 
     swal.fire({
       title: "Setting",
       html: html,
       confirmButtonColor: cr_player.color_hightlight,
-      didOpen:()=>{
-        $(cr_player.list_theme).each(function(index,th){
-          if(cr_player.theme==th)
-            $("#dropdown_theme").append($('<option>', {value: th,text: th,selected:true}));
+      didOpen: () => {
+        $(cr_player.list_theme).each(function (index, th) {
+          if (cr_player.theme == th)
+            $("#dropdown_theme").append($('<option>', { value: th, text: th, selected: true }));
           else
-            $("#dropdown_theme").append($('<option>', {value: th,text: th}));
+            $("#dropdown_theme").append($('<option>', { value: th, text: th }));
         });
       }
-    }).then((result)=>{
-      if(result.isConfirmed){
-          var new_theme_val=$("#dropdown_theme").val();
-          if(new_theme_val!=cr_player.theme){
-            cr_player.set_theme(new_theme_val);
-            localStorage.setItem("cr_player_theme",cr_player.theme);
-          }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        var new_theme_val = $("#dropdown_theme").val();
+        if (new_theme_val != cr_player.theme) {
+          cr_player.set_theme(new_theme_val);
+          localStorage.setItem("cr_player_theme", cr_player.theme);
+        }
 
-          var mediaSession_status=$("#mediaSession").val();
-          if(mediaSession_status=="true") cr_player.mediaSession=true;
-          else cr_player.mediaSession=false;
-          localStorage.setItem("mediaSession",mediaSession_status);
+        var mediaSession_status = $("#mediaSession").val();
+        if (mediaSession_status == "true") cr_player.mediaSession = true;
+        else cr_player.mediaSession = false;
+        localStorage.setItem("mediaSession", mediaSession_status);
       }
     });
   }
 
-  set_theme(name_theme){
-    cr_player.theme=name_theme;
-    $(cr_player.list_theme).each(function(index,th){
-      $("#"+th).remove();
+  set_theme(name_theme) {
+    cr_player.theme = name_theme;
+    $(cr_player.list_theme).each(function (index, th) {
+      $("#" + th).remove();
     });
-    $('head').append('<link id="'+name_theme+'" rel="stylesheet" type="text/css" href="cr_player/' + name_theme + '.css">');
+    $('head').append('<link id="' + name_theme + '" rel="stylesheet" type="text/css" href="cr_player/' + name_theme + '.css">');
   }
 
   next_song() {
     this.index_play_cur++;
-    if(this.index_play_cur>=this.list_song.length) this.index_play_cur=0;
+    if (this.index_play_cur >= this.list_song.length) this.index_play_cur = 0;
     this.play_by_index(this.index_play_cur);
   }
 
   prev_song() {
     this.index_play_cur--;
-    if(this.index_play_cur<0) this.index_play_cur=this.list_song.length-1;
+    if (this.index_play_cur < 0) this.index_play_cur = this.list_song.length - 1;
     this.play_by_index(this.index_play_cur);
   }
 
   show_playlist() {
-      var html = '<center class="text-center w-100 d-block" style="width:100%"><table style="width:100%" class="table table-striped table-hover table-responsive fs-9 w-100 text-break"><tbody style="width:100%" id="box_list_song"></tbody></table></center>';
-      swal.fire({
-        title: "Playlist",
-        html: html,
-        iconColor: cr_player.color_hightlight,
-        confirmButtonColor: cr_player.color_hightlight,
-        didOpen: () => {
-          $.each(cr_player.list_song, function (index, s) {
-            var html = '';
-            html = '<tr role="button">';
-            if(cr_player.index_play_cur==index){
-                html += '<td style="color:'+cr_player.color_hightlight+'"><i class="fas fa-volume-up"></i></td>';
-                html += '<td style="color:'+cr_player.color_hightlight+';width:80%">' + s.name + '</td>';
-                html += '<td><i class="fas fa-pause" title="pause"></i></td>';
-            }
-            else{
-                html += '<th scope="row"><i class="fas fa-music"></i></th>';
-                html += '<td style="width:80%">' + s.name + '</td>';
-                html += '<td><i class="fas fa-play" title="Play One"></i></td>';
-            }
-            html += '<td class="box_all_btn"></td>';
-            html += '</tr>';
-            var item_box = $(html);
-            $(item_box).click(() => {
-              cr_player.index_play_cur=index;
-              cr_player.play_by_index(index);
-              Swal.close();
-            });
-
-            var btn_del = $('<i class="fas fa-trash"></i>');
-            $(btn_del).click(function () {
-              cr_player.list_song.splice(index, 1);
-              $(item_box).remove();
-              return false;
-            });
-            $(item_box).find(".box_all_btn").html(btn_del);
-            $("#box_list_song").append(item_box);
+    var html = '<center class="text-center w-100 d-block" style="width:100%"><table style="width:100%" class="table table-striped table-hover table-responsive fs-9 w-100 text-break"><tbody style="width:100%" id="box_list_song"></tbody></table></center>';
+    swal.fire({
+      title: "Playlist",
+      html: html,
+      iconColor: cr_player.color_hightlight,
+      confirmButtonColor: cr_player.color_hightlight,
+      didOpen: () => {
+        $.each(cr_player.list_song, function (index, s) {
+          var html = '';
+          html = '<tr role="button">';
+          if (cr_player.index_play_cur == index) {
+            html += '<td style="color:' + cr_player.color_hightlight + '"><i class="fas fa-volume-up"></i></td>';
+            html += '<td style="color:' + cr_player.color_hightlight + ';width:80%">' + s.name + '</td>';
+            html += '<td><i class="fas fa-pause" title="pause"></i></td>';
+          }
+          else {
+            html += '<th scope="row"><i class="fas fa-music"></i></th>';
+            html += '<td style="width:80%">' + s.name + '</td>';
+            html += '<td><i class="fas fa-play" title="Play One"></i></td>';
+          }
+          html += '<td class="box_all_btn"></td>';
+          html += '</tr>';
+          var item_box = $(html);
+          $(item_box).click(() => {
+            cr_player.index_play_cur = index;
+            cr_player.play_by_index(index);
+            Swal.close();
           });
-        }
-      });
+
+          var btn_del = $('<i class="fas fa-trash"></i>');
+          $(btn_del).click(function () {
+            cr_player.list_song.splice(index, 1);
+            $(item_box).remove();
+            return false;
+          });
+          $(item_box).find(".box_all_btn").html(btn_del);
+          $("#box_list_song").append(item_box);
+        });
+      }
+    });
   }
 
-  set_color(color){
-    this.color_hightlight=color;
+  set_color(color) {
+    this.color_hightlight = color;
   }
 
   formatTime(seconds) {
@@ -493,13 +493,13 @@ class CR_Player {
     return minutes + ":" + seconds;
   }
 
-  loop(){
+  loop() {
     this.index_loop_cur++;
-    if(this.index_loop_cur>=this.list_loop_id.length) this.index_loop_cur=0;
+    if (this.index_loop_cur >= this.list_loop_id.length) this.index_loop_cur = 0;
     $("#cr_btn_loop").html(this.list_loop_icon[this.index_loop_cur]);
     swal.fire({
-      title:"Loop Song",
-      text:cr_player.list_loop_id[cr_player.index_loop_cur],
+      title: "Loop Song",
+      text: cr_player.list_loop_id[cr_player.index_loop_cur],
       confirmButtonColor: cr_player.color_hightlight
     });
   }
