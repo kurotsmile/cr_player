@@ -13,11 +13,14 @@
     width: 200px;
     float: left;
     font-size: 12px;
+    display: flex;
 }
 
 #cr_name{
     float: left;
     width: 100%;
+    color:white;
+    margin-left: 6px;
 }
 
 #cr_singer{
@@ -25,6 +28,7 @@
     width: 100%;
     font-weight: bold;
     font-style: oblique;
+    margin-left: 6px;
 }
 
 #cr_song_avatar{
@@ -36,6 +40,8 @@
 #cr_player .btn{
     margin-top: 13px;
     background-color: black;
+    border: none;
+    color:white;
 }
 
 #cr_player .btn-setting{
