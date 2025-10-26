@@ -1,17 +1,18 @@
 if (typeof window.CR_Player === "undefined") {
   class CR_Player {
-    theme = "theme_basic_top";
-    audio_player = null;
-    emp_ui_player = null;
+    theme             = "theme_basic_top";
+    audio_player      = null;
+    emp_ui_player     = null;
 
-    color_hightlight = "#bd92ff";
+    color_hightlight  = "#bd92ff";
 
-    name_song = "Carrot Player Music";
-    name_singer = "Music Player";
+    name_song         = "Carrot Player Music";
+    name_singer       = "Music Player";
+    avatar_url        = "cr_player/song.png";
 
-    list_song = [];
-    index_play_cur = 0;
-    index_loop_cur = 0;
+    list_song         = [];
+    index_play_cur    = 0;
+    index_loop_cur    = 0;
 
     list_theme = [
       "theme_basic_top",
@@ -158,7 +159,7 @@ if (typeof window.CR_Player === "undefined") {
       });
     }
 
-    play(url_mp3, name_song = null, name_singer = "Carrot Player Music") {
+    play(url_mp3, name_song = null, name_singer = "Carrot Player Music",song_avatar="cr_player/song.png") {
       this.index_play_cur = 0;
       this.list_song = [];
 
@@ -171,6 +172,7 @@ if (typeof window.CR_Player === "undefined") {
 
       this.name_song = songName;
       this.name_singer = artistName;
+      this.avatar_url=song_avatar;
 
       if (this.mediaSession) {
         this.set_mediaSession(
@@ -270,8 +272,7 @@ if (typeof window.CR_Player === "undefined") {
         var html = '<div id="cr_player">';
         html += '<div id="cr_time_info">00:00:00</div>';
         html += '<div id="cr_time_length">00:00:00</div>';
-        html +=
-          '<img role="button" src="cr_player/song.png" id="cr_song_avatar" onclick="cr_player.show_playlist()"/>';
+        html += '<img role="button" src="'+this.avatar_url+'" id="cr_song_avatar" onerror="this.onerror=null; this.src=\'cr_player/song.png\';" onclick="cr_player.show_playlist()"/>';
         html += '<div id="cr_info" class="d-inline mt-2 ml-2">';
         html += '<div id="cr_name">' + this.name_song + "</div>";
         html +=
@@ -310,7 +311,6 @@ if (typeof window.CR_Player === "undefined") {
         $(this.emp_ui_player).fadeIn(500);
         this.updateMetaInfo();
       }
-      $("[title]").tooltip();
     }
 
     updateMetaInfo() {
