@@ -191,7 +191,7 @@ if (typeof window.CR_Player === "undefined") {
       var data_song = {};
       var e = $(emp);
       data_song["name"] = e.attr("cr-name");
-      data_song["url"] = e.attr("cr-url");
+      data_song["mp3"] = e.attr("cr-url");
       data_song["artist"] = e.attr("cr-artist");
       data_song["album"] = e.attr("cr-artist");
       data_song["avatar"] = e.attr("cr-avatar");
@@ -204,20 +204,18 @@ if (typeof window.CR_Player === "undefined") {
     }
 
     start(data, is_add = false) {
-      this.name_song = data.name;
-      this.name_singer = data.artist;
-      data["mp3"] = data.url;
-      data["avatar"] = this.path + "/song.png";
-      if (is_add == false) this.list_song = [];
-      this.list_song.push(data);
-      if (this.mediaSession)
-        this.set_mediaSession(
-          data.name,
-          data.artist,
-          "Music For Life",
-          data.avatar
-        );
-      this.set_mp3(data.url);
+      if (is_add == false){
+        this.list_song = [];
+        this.name_song = data.name;
+        this.name_singer = data.artist;
+        data["mp3"] = data.url;
+        data["avatar"] = this.path + "/song.png";
+        if (this.mediaSession) this.set_mediaSession(data.name,data.artist,"Music For Life",data.avatar);
+        this.set_mp3(data.url);
+      }else{
+        this.list_song.push(data);
+        if(this.list_song.length==1) this.play_by_index(0);
+      }
       this.uiPlayer();
     }
 
