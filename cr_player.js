@@ -122,9 +122,7 @@ if (typeof window.CR_Player === "undefined") {
         var buffered = this.buffered;
         if (buffered.length > 0) {
           var loadedPercentage = (buffered.end(0) / this.duration) * 100;
-          $("#cr_singer").html(
-            "Audio loaded: " + loadedPercentage.toFixed(2) + "%"
-          );
+          $("#cr_singer").html("Audio loaded: " + loadedPercentage.toFixed(2) + "%");
           $("#cr_btn_play").html('<i class="fas fa-spinner fa-spin"></i>');
         }
 
@@ -135,13 +133,8 @@ if (typeof window.CR_Player === "undefined") {
       });
 
       this.audio_player.addEventListener("timeupdate", (event) => {
-        $("#cr_player_timer").attr(
-          "value",
-          cr_player.audio_player.currentTime.toFixed(2)
-        );
-        $("#cr_time_info").html(
-          cr_player.formatTime(cr_player.audio_player.currentTime)
-        );
+        $("#cr_player_timer").attr("value",cr_player.audio_player.currentTime.toFixed(2));
+        $("#cr_time_info").html(cr_player.formatTime(cr_player.audio_player.currentTime));
       });
 
       this.audio_player.addEventListener("play", function () {
@@ -209,7 +202,7 @@ if (typeof window.CR_Player === "undefined") {
         this.name_song = data.name;
         this.name_singer = data.artist;
         data["mp3"] = data.url;
-        data["avatar"] = this.path + "/song.png";
+        if(data.avatar==null) data["avatar"] = this.path + "/song.png";
         if (this.mediaSession) this.set_mediaSession(data.name,data.artist,"Music For Life",data.avatar);
         this.set_mp3(data.url);
       }else{
@@ -223,6 +216,7 @@ if (typeof window.CR_Player === "undefined") {
       var song = this.list_song[index];
       this.name_song = song.name;
       this.name_singer = song.artist;
+      this.avatar_url=song.avatar;
       this.set_mp3(song.mp3);
       this.uiPlayer();
     }
@@ -273,33 +267,18 @@ if (typeof window.CR_Player === "undefined") {
         html += '<img role="button" src="'+this.avatar_url+'" id="cr_song_avatar" onerror="this.onerror=null; this.src=\'cr_player/song.png\';" onclick="cr_player.show_playlist()"/>';
         html += '<div id="cr_info" class="d-inline mt-2 ml-2">';
         html += '<div id="cr_name">' + this.name_song + "</div>";
-        html +=
-          '<div id="cr_singer" style="color:' +
-          this.color_hightlight +
-          '">' +
-          this.name_singer +
-          "</div>";
+        html += '<div id="cr_singer" style="color:' +this.color_hightlight +'">' +this.name_singer +"</div>";
         html += "</div>";
-        html +=
-          '<button onclick="cr_player.playOrPause();" class="btn btn-sm btn-dark ml-2" id="cr_btn_play" title="Play Or Pause"><i class="far fa-play-circle"></i></button>';
-        html +=
-          '<button onclick="cr_player.prev_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_next" title="Next Song"><i class="fas fa-step-backward"></i></button>';
-        html +=
-          '<button onclick="cr_player.seekbackward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_backward" title="Backward"><i class="fas fa-backward"></i></button>';
-        html +=
-          '<button onclick="cr_player.seekforward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_forward" title="Forward"><i class="fas fa-forward"></i></button>';
-        html +=
-          '<button onclick="cr_player.next_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev" title="Prev Song"><i class="fas fa-step-forward"></i></button>';
-        html +=
-          '<button onclick="cr_player.loop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_loop" title="Loop"><i class="fas fa-undo"></i></button>';
-        html +=
-          '<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1 btn-stop" title="Stop"><i class="far fa-stop-circle"></i></button>';
-        html +=
-          '<button onclick="cr_player.show_playlist();" class="btn btn-sm btn-dark ml-1 btn-playlist" title="Playlist"><i class="fas fa-list-alt"></i></button>';
-        html +=
-          '<button onclick="cr_player.show_setting();" class="btn btn-sm btn-dark ml-1 btn-setting" title="Setting"><i class="fas fa-tools"></i></button>';
-        html +=
-          '<progress id="cr_player_timer" value="32" max="100"> 32% </progress>';
+        html += '<button onclick="cr_player.playOrPause();" class="btn btn-sm btn-dark ml-2" id="cr_btn_play" title="Play Or Pause"><i class="far fa-play-circle"></i></button>';
+        html += '<button onclick="cr_player.prev_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_next" title="Next Song"><i class="fas fa-step-backward"></i></button>';
+        html += '<button onclick="cr_player.seekbackward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_backward" title="Backward"><i class="fas fa-backward"></i></button>';
+        html += '<button onclick="cr_player.seekforward();" class="btn btn-sm btn-dark ml-1" id="cr_btn_forward" title="Forward"><i class="fas fa-forward"></i></button>';
+        html += '<button onclick="cr_player.next_song();" class="btn btn-sm btn-dark ml-1" id="cr_btn_prev" title="Prev Song"><i class="fas fa-step-forward"></i></button>';
+        html += '<button onclick="cr_player.loop();" class="btn btn-sm btn-dark ml-1" id="cr_btn_loop" title="Loop"><i class="fas fa-undo"></i></button>';
+        html += '<button onclick="cr_player.stop();" class="btn btn-sm btn-dark ml-1 btn-stop" title="Stop"><i class="far fa-stop-circle"></i></button>';
+        html += '<button onclick="cr_player.show_playlist();" class="btn btn-sm btn-dark ml-1 btn-playlist" title="Playlist"><i class="fas fa-list-alt"></i></button>';
+        html += '<button onclick="cr_player.show_setting();" class="btn btn-sm btn-dark ml-1 btn-setting" title="Setting"><i class="fas fa-tools"></i></button>';
+        html += '<progress id="cr_player_timer" value="32" max="100"> 32% </progress>';
         html += '<div id="cr_video"></div>';
         html += "</div>";
         this.emp_ui_player = $(html);
@@ -404,36 +383,25 @@ if (typeof window.CR_Player === "undefined") {
     }
 
     checkIconPlay() {
-      if (this.audio_player.paused)
-        $("#cr_btn_play").html('<i class="far fa-play-circle"></i>');
+      if (this.audio_player.paused)$("#cr_btn_play").html('<i class="far fa-play-circle"></i>');
       else $("#cr_btn_play").html('<i class="fas fa-pause-circle"></i>');
     }
 
     show_setting() {
       var html = "";
       html += '<div class="form-group">';
-      html +=
-        '<label for="unlockallmp3"><i class="fas fa-brush"></i> Interface and themes</label>';
+      html += '<label for="unlockallmp3"><i class="fas fa-brush"></i> Interface and themes</label>';
       html += '<select class="form-control" id="dropdown_theme"><select>';
-      html +=
-        '<small class="form-text text-muted">Change the style of the music player</small>';
+      html += '<small class="form-text text-muted">Change the style of the music player</small>';
       html += "</div>";
 
       html += '<div class="form-group">';
-      html +=
-        '<label for="mediaSession"><i class="fas fa-pager"></i> Media Session</label>';
+      html += '<label for="mediaSession"><i class="fas fa-pager"></i> Media Session</label>';
       html += '<select class="form-control" id="mediaSession">';
-      html +=
-        '<option value="true" ' +
-        (cr_player.mediaSession === true ? "selected='true'" : "") +
-        ">On</option>";
-      html +=
-        '<option value="false" ' +
-        (cr_player.mediaSession === false ? "selected='true'" : "") +
-        ">Off</option>";
+      html += '<option value="true" ' + (cr_player.mediaSession === true ? "selected='true'" : "") + ">On</option>";
+      html += '<option value="false" ' + (cr_player.mediaSession === false ? "selected='true'" : "") + ">Off</option>";
       html += "<select>";
-      html +=
-        '<small class="form-text text-muted">Turn on the media Session function so that songs are not interrupted when switching browser tabs</small>';
+      html += '<small class="form-text text-muted">Turn on the media Session function so that songs are not interrupted when switching browser tabs</small>';
       html += "</div>";
 
       swal
@@ -475,13 +443,7 @@ if (typeof window.CR_Player === "undefined") {
       $(cr_player.list_theme).each(function (index, th) {
         $("#" + th).remove();
       });
-      $("head").append(
-        '<link id="' +
-          name_theme +
-          '" rel="stylesheet" type="text/css" href="cr_player/' +
-          name_theme +
-          '.css">'
-      );
+      $("head").append('<link id="' +name_theme +'" rel="stylesheet" type="text/css" href="cr_player/' +name_theme +'.css">');
     }
 
     next_song() {
