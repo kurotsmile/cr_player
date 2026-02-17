@@ -94,9 +94,18 @@ if (typeof window.CR_Player === "undefined") {
 
     upDateInfoLoad() {
       this.audio_player.addEventListener("ended", function () {
-        if (this.index_loop_cur == 0) cr_player.next_song();
-        if (this.index_loop_cur == 1) cr_player.pause();
-        if (this.index_loop_cur == 2) {
+        if (cr_player.index_loop_cur == 0) {
+          cr_player.next_song();
+          return;
+        }
+
+        if (cr_player.index_loop_cur == 1) {
+          cr_player.audio_player.currentTime = 0;
+          cr_player.audio_player.play();
+          return;
+        }
+
+        if (cr_player.list_song.length > 0) {
           var index_random = Math.floor(
             Math.random() * cr_player.list_song.length
           );
@@ -160,7 +169,7 @@ if (typeof window.CR_Player === "undefined") {
       const songName = name_song || `Song ${this.list_song.length}`;
       const artistName = name_singer || "Carrot Player Music";
 
-      const obj_data = { mp3: url_mp3, name: songName, artist: artistName };
+      const obj_data = { mp3: url_mp3, name: songName, artist: artistName, avatar: song_avatar };
       this.list_song.push(obj_data);
 
       this.name_song = songName;
@@ -203,6 +212,7 @@ if (typeof window.CR_Player === "undefined") {
         this.name_singer = data.artist;
         data["mp3"] = data.url;
         if(data.avatar==null) data["avatar"] = this.path + "/song.png";
+        this.avatar_url = data.avatar;
         if (this.mediaSession) this.set_mediaSession(data.name,data.artist,"Music For Life",data.avatar);
         this.set_mp3(data.url);
       }else{
@@ -293,6 +303,8 @@ if (typeof window.CR_Player === "undefined") {
     updateMetaInfo() {
       $(this.emp_ui_player).find("#cr_name").html(this.name_song);
       $(this.emp_ui_player).find("#cr_singer").html(this.name_singer);
+      const avatar = this.avatar_url || this.path + "/song.png";
+      $(this.emp_ui_player).find("#cr_song_avatar").attr("src", avatar);
       if (this.list_song.length > 1) {
         $("#cr_btn_next").show();
         $("#cr_btn_prev").show();
