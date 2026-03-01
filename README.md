@@ -45,6 +45,26 @@ This function is used to play an audio file. You need to pass in the URL of the 
 cr_player.play('url/to/your/audiofile.mp3');
 ```
 
+#### `cr_player.play(url_audio, name, artist, avatar, options)`
+
+You can also pass full metadata and mark the source as a live radio stream.
+
+```javascript
+cr_player.play(
+  'https://example.com/live-radio-stream',
+  'Radio Station Name',
+  'Country or Station',
+  'https://example.com/radio-cover.png',
+  { is_live: true }
+);
+```
+
+When `is_live: true` is enabled, `cr_player` switches to live-stream mode:
+
+- Shows `LIVE` instead of track duration
+- Hides seek controls
+- Skips ended/loop behavior used for normal songs
+
 ### Complete Example
 
 Here is a complete example of how to use `cr_player` on your website:
@@ -101,6 +121,34 @@ cr_player.add_song(url_mp3, name, artist);
 
 // Example
 cr_player.add_song('https://example.com/music/song2.mp3', 'Song Title', 'Artist Name');
+```
+
+### Playing Radio From HTML Buttons
+
+If you use `play_emp()` or `add_emp()` with HTML attributes, mark radio items with `cr-live="1"` so the player treats them as a stream.
+
+```html
+<button
+  onclick="cr_player.play_emp(this)"
+  cr-name="Radio Station Name"
+  cr-url="https://example.com/live-radio-stream"
+  cr-artist="Station or Country"
+  cr-avatar="https://example.com/radio-cover.png"
+  cr-live="1">
+  Play Radio
+</button>
+```
+
+```html
+<button
+  onclick="cr_player.add_emp(this)"
+  cr-name="Radio Station Name"
+  cr-url="https://example.com/live-radio-stream"
+  cr-artist="Station or Country"
+  cr-avatar="https://example.com/radio-cover.png"
+  cr-live="1">
+  Add Radio To Playlist
+</button>
 ```
 ## Control Methods
 

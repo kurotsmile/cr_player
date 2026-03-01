@@ -59,6 +59,26 @@ Hàm này được sử dụng để phát một file audio. Bạn cần truyề
 cr_player.play('url/to/your/audiofile.mp3');
 ```
 
+#### `cr_player.play(url_audio, name, artist, avatar, options)`
+
+Bạn cũng có thể truyền đầy đủ metadata và đánh dấu nguồn phát là radio stream trực tiếp.
+
+```javascript
+cr_player.play(
+  'https://example.com/live-radio-stream',
+  'Tên kênh radio',
+  'Quốc gia hoặc station',
+  'https://example.com/radio-cover.png',
+  { is_live: true }
+);
+```
+
+Khi bật `is_live: true`, `cr_player` sẽ chuyển sang chế độ radio stream:
+
+- Hiển thị `LIVE` thay cho thời lượng
+- Ẩn nút tua
+- Không dùng logic `ended/loop` như bài hát thường
+
 ### Ví dụ hoàn chỉnh
 
 Dưới đây là ví dụ hoàn chỉnh về cách sử dụng `cr_player` trên trang web của bạn:
@@ -120,6 +140,34 @@ cr_player.add_song(url_mp3, name, artist);
 
 // Ví dụ
 cr_player.add_song('https://example.com/music/song2.mp3', 'Song Title', 'Artist Name');
+```
+
+### Phát Radio Từ Nút HTML
+
+Nếu bạn dùng `play_emp()` hoặc `add_emp()` với thuộc tính HTML, hãy thêm `cr-live="1"` để player nhận đây là radio stream.
+
+```html
+<button
+  onclick="cr_player.play_emp(this)"
+  cr-name="Tên kênh radio"
+  cr-url="https://example.com/live-radio-stream"
+  cr-artist="Station hoặc quốc gia"
+  cr-avatar="https://example.com/radio-cover.png"
+  cr-live="1">
+  Phát Radio
+</button>
+```
+
+```html
+<button
+  onclick="cr_player.add_emp(this)"
+  cr-name="Tên kênh radio"
+  cr-url="https://example.com/live-radio-stream"
+  cr-artist="Station hoặc quốc gia"
+  cr-avatar="https://example.com/radio-cover.png"
+  cr-live="1">
+  Thêm Radio Vào Playlist
+</button>
 ```
 
 Hy vọng hướng dẫn này sẽ giúp bạn dễ dàng cài đặt và sử dụng `cr_player` cho dự án web của mình. Nếu có bất kỳ câu hỏi hay gặp vấn đề gì, xin vui lòng tạo một issue trên GitHub hoặc liên hệ với tôi qua email.

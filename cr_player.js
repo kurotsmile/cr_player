@@ -24,6 +24,7 @@ if (typeof window.CR_Player === "undefined") {
 
     mediaSession = true;
     time_step = 10;
+    is_live_stream = false;
 
     path = "cr_player";
 
@@ -94,6 +95,10 @@ if (typeof window.CR_Player === "undefined") {
 
     upDateInfoLoad() {
       this.audio_player.addEventListener("ended", function () {
+        if (cr_player.is_live_stream) {
+          return;
+        }
+
         if (cr_player.index_loop_cur == 0) {
           cr_player.next_song();
           return;
@@ -115,8 +120,8 @@ if (typeof window.CR_Player === "undefined") {
 
       this.audio_player.addEventListener("loadeddata", () => {
         let duration = cr_player.audio_player.duration;
-        $("#cr_player_timer").attr("max", duration.toFixed(2));
-        $("#cr_time_length").html(cr_player.formatTime(duration));
+        cr_player.is_live_stream = cr_player.detectLiveStream(cr_player.audio_player.src, duration);
+        cr_player.updatePlaybackMode(duration);
       });
 
       this.audio_player.addEventListener(
@@ -129,7 +134,7 @@ if (typeof window.CR_Player === "undefined") {
 
       this.audio_player.addEventListener("progress", function () {
         var buffered = this.buffered;
-        if (buffered.length > 0) {
+        if (buffered.length > 0 && Number.isFinite(this.duration) && this.duration > 0) {
           var loadedPercentage = (buffered.end(0) / this.duration) * 100;
           $("#cr_singer").html("Audio loaded: " + loadedPercentage.toFixed(2) + "%");
           $("#cr_btn_play").html('<i class="fas fa-spinner fa-spin"></i>');
@@ -142,6 +147,10 @@ if (typeof window.CR_Player === "undefined") {
       });
 
       this.audio_player.addEventListener("timeupdate", (event) => {
+        if (cr_player.is_live_stream) {
+          $("#cr_time_info").html("LIVE");
+          return;
+        }
         $("#cr_player_timer").attr("value",cr_player.audio_player.currentTime.toFixed(2));
         $("#cr_time_info").html(cr_player.formatTime(cr_player.audio_player.currentTime));
       });
@@ -161,7 +170,7 @@ if (typeof window.CR_Player === "undefined") {
       });
     }
 
-    play(url_mp3, name_song = null, name_singer = "Carrot Player Music",song_avatar="cr_player/song.png") {
+    play(url_mp3, name_song = null, name_singer = "Carrot Player Music",song_avatar="cr_player/song.png", options = {}) {
       this.index_play_cur = 0;
       this.list_song = [];
 
@@ -169,12 +178,13 @@ if (typeof window.CR_Player === "undefined") {
       const songName = name_song || `Song ${this.list_song.length}`;
       const artistName = name_singer || "Carrot Player Music";
 
-      const obj_data = { mp3: url_mp3, name: songName, artist: artistName, avatar: song_avatar };
+      const obj_data = { mp3: url_mp3, name: songName, artist: artistName, avatar: song_avatar, is_live: options.is_live === true };
       this.list_song.push(obj_data);
 
       this.name_song = songName;
       this.name_singer = artistName;
       this.avatar_url=song_avatar;
+      this.is_live_stream = options.is_live === true;
 
       if (this.mediaSession) {
         this.set_mediaSession(
@@ -198,6 +208,7 @@ if (typeof window.CR_Player === "undefined") {
       data_song["album"] = e.attr("cr-artist");
       data_song["avatar"] = e.attr("cr-avatar");
       data_song["youtube"] = e.attr("cr-youtube");
+      data_song["is_live"] = e.attr("cr-live") == "1";
       this.start(data_song, is_add);
     }
 
@@ -213,6 +224,7 @@ if (typeof window.CR_Player === "undefined") {
         data["mp3"] = data.url;
         if(data.avatar==null) data["avatar"] = this.path + "/song.png";
         this.avatar_url = data.avatar;
+        this.is_live_stream = data.is_live === true;
         if (this.mediaSession) this.set_mediaSession(data.name,data.artist,"Music For Life",data.avatar);
         this.set_mp3(data.url);
       }else{
@@ -227,6 +239,7 @@ if (typeof window.CR_Player === "undefined") {
       this.name_song = song.name;
       this.name_singer = song.artist;
       this.avatar_url=song.avatar;
+      this.is_live_stream = song.is_live === true;
       this.set_mp3(song.mp3);
       this.uiPlayer();
     }
@@ -312,6 +325,17 @@ if (typeof window.CR_Player === "undefined") {
         $("#cr_btn_next").hide();
         $("#cr_btn_prev").hide();
       }
+
+      if (this.is_live_stream) {
+        $("#cr_btn_backward").hide();
+        $("#cr_btn_forward").hide();
+        $("#cr_player_timer").hide();
+        $("#cr_time_info").html("LIVE");
+      } else {
+        $("#cr_btn_backward").show();
+        $("#cr_btn_forward").show();
+        $("#cr_player_timer").show();
+      }
     }
 
     hide() {
@@ -325,11 +349,13 @@ if (typeof window.CR_Player === "undefined") {
     }
 
     seekbackward() {
+      if (this.is_live_stream) return;
       var newTime = this.audio_player.currentTime - this.time_step;
       this.audio_player.currentTime = newTime < 0 ? 0 : newTime;
     }
 
     seekforward() {
+      if (this.is_live_stream) return;
       var newTime = this.audio_player.currentTime + this.time_step;
       this.audio_player.currentTime = newTime < 0 ? 0 : newTime;
     }
@@ -527,11 +553,37 @@ if (typeof window.CR_Player === "undefined") {
     }
 
     formatTime(seconds) {
+      if (!Number.isFinite(seconds) || seconds < 0) return "00:00";
       var minutes = Math.floor(seconds / 60);
       minutes = minutes >= 10 ? minutes : "0" + minutes;
       var seconds = Math.floor(seconds % 60);
       seconds = seconds >= 10 ? seconds : "0" + seconds;
       return minutes + ":" + seconds;
+    }
+
+    detectLiveStream(url, duration = null) {
+      if (this.is_live_stream) return true;
+      if (duration !== null && (!Number.isFinite(duration) || duration === Infinity || isNaN(duration))) return true;
+      if (!url) return false;
+      const cleanUrl = String(url).toLowerCase().split("?")[0];
+      return [".pls", ".m3u", ".m3u8"].some(ext => cleanUrl.endsWith(ext));
+    }
+
+    updatePlaybackMode(duration = null) {
+      if (this.is_live_stream) {
+        $("#cr_player_timer").attr("value", 0).attr("max", 1).hide();
+        $("#cr_time_info").html("LIVE");
+        $("#cr_time_length").html("LIVE");
+        $("#cr_btn_backward").hide();
+        $("#cr_btn_forward").hide();
+        return;
+      }
+
+      const safeDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
+      $("#cr_player_timer").show().attr("max", safeDuration.toFixed(2));
+      $("#cr_time_length").html(this.formatTime(safeDuration));
+      $("#cr_btn_backward").show();
+      $("#cr_btn_forward").show();
     }
 
     loop() {
