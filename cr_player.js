@@ -191,7 +191,7 @@ if (typeof window.CR_Player === "undefined") {
           songName,
           artistName,
           "Music For Life",
-          `${this.path}/song.png`
+          song_avatar
         );
       }
 
@@ -240,6 +240,7 @@ if (typeof window.CR_Player === "undefined") {
       this.name_singer = song.artist;
       this.avatar_url=song.avatar;
       this.is_live_stream = song.is_live === true;
+      if (this.mediaSession) this.set_mediaSession(song.name, song.artist, "Music For Life", song.avatar);
       this.set_mp3(song.mp3);
       this.uiPlayer();
     }
@@ -364,18 +365,29 @@ if (typeof window.CR_Player === "undefined") {
       this.time_step = timer;
     }
 
+    get_mediaSession_artwork(url_avatar = null) {
+      const artwork = url_avatar || this.avatar_url || `${this.path}/song.png`;
+      try {
+        return new URL(artwork, window.location.href).toString();
+      } catch (error) {
+        return artwork;
+      }
+    }
+
     set_mediaSession(s_title, s_artist, s_album, s_url_avatar) {
       if ("mediaSession" in navigator) {
+        const artworkSrc = this.get_mediaSession_artwork(s_url_avatar);
         navigator.mediaSession.metadata = new MediaMetadata({
           title: s_title,
           artist: s_artist,
           album: s_album,
           artwork: [
-            {
-              src: s_url_avatar,
-              sizes: "384x384",
-              type: "image/jpg",
-            },
+            { src: artworkSrc, sizes: "96x96" },
+            { src: artworkSrc, sizes: "128x128" },
+            { src: artworkSrc, sizes: "192x192" },
+            { src: artworkSrc, sizes: "256x256" },
+            { src: artworkSrc, sizes: "384x384" },
+            { src: artworkSrc, sizes: "512x512" },
           ],
         });
 
