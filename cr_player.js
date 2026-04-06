@@ -8,7 +8,7 @@ if (typeof window.CR_Player === "undefined") {
 
     name_song         = "Carrot Player Music";
     name_singer       = "Music Player";
-    avatar_url        = "cr_player/song.png";
+    avatar_url        = "/cr_player/song.png";
 
     list_song         = [];
     index_play_cur    = 0;
@@ -26,7 +26,7 @@ if (typeof window.CR_Player === "undefined") {
     time_step = 10;
     is_live_stream = false;
 
-    path = "cr_player";
+    path = "/cr_player";
 
     list_loop_id = ["loop_all", "loop_one", "loop_random"];
 
@@ -47,12 +47,12 @@ if (typeof window.CR_Player === "undefined") {
         else this.mediaSession = false;
       }
       $("head").append(
-        '<link rel="stylesheet" type="text/css" href="cr_player/theme.css">'
+        '<link rel="stylesheet" type="text/css" href="/cr_player/theme.css">'
       );
       $("head").append(
         '<link id="' +
           this.theme +
-          '" rel="stylesheet" type="text/css" href="cr_player/' +
+          '" rel="stylesheet" type="text/css" href="/cr_player/' +
           this.theme +
           '.css">'
       );
@@ -170,7 +170,7 @@ if (typeof window.CR_Player === "undefined") {
       });
     }
 
-    play(url_mp3, name_song = null, name_singer = "Carrot Player Music",song_avatar="cr_player/song.png", options = {}) {
+    play(url_mp3, name_song = null, name_singer = "Carrot Player Music",song_avatar="/cr_player/song.png", options = {}) {
       this.index_play_cur = 0;
       this.list_song = [];
 
@@ -288,7 +288,7 @@ if (typeof window.CR_Player === "undefined") {
         var html = '<div id="cr_player">';
         html += '<div id="cr_time_info">00:00:00</div>';
         html += '<div id="cr_time_length">00:00:00</div>';
-        html += '<img role="button" src="'+this.avatar_url+'" id="cr_song_avatar" onerror="this.onerror=null; this.src=\'cr_player/song.png\';" onclick="cr_player.show_playlist()"/>';
+        html += '<img role="button" src="'+this.avatar_url+'" id="cr_song_avatar" onerror="this.onerror=null; this.src=\'/cr_player/song.png\';" onclick="cr_player.show_playlist()"/>';
         html += '<div id="cr_info" class="d-inline mt-2 ml-2">';
         html += '<div id="cr_name">' + this.name_song + "</div>";
         html += '<div id="cr_singer" style="color:' +this.color_hightlight +'">' +this.name_singer +"</div>";
