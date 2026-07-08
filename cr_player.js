@@ -47,12 +47,12 @@ if (typeof window.CR_Player === "undefined") {
         else this.mediaSession = false;
       }
       $("head").append(
-        '<link rel="stylesheet" type="text/css" href="/cr_player/theme.css">'
+        '<link rel="stylesheet" type="text/css" href="' + this.path + '/theme.css">'
       );
       $("head").append(
         '<link id="' +
           this.theme +
-          '" rel="stylesheet" type="text/css" href="/cr_player/' +
+          '" rel="stylesheet" type="text/css" href="' + this.path + '/' +
           this.theme +
           '.css">'
       );
@@ -204,6 +204,7 @@ if (typeof window.CR_Player === "undefined") {
       var e = $(emp);
       data_song["name"] = e.attr("cr-name");
       data_song["mp3"] = e.attr("cr-url");
+      data_song["url"] = e.attr("cr-url");
       data_song["artist"] = e.attr("cr-artist");
       data_song["album"] = e.attr("cr-artist");
       data_song["avatar"] = e.attr("cr-avatar");
@@ -221,12 +222,12 @@ if (typeof window.CR_Player === "undefined") {
         this.list_song = [];
         this.name_song = data.name;
         this.name_singer = data.artist;
-        data["mp3"] = data.url;
+        data["mp3"] = data.mp3 || data.url;
         if(data.avatar==null) data["avatar"] = this.path + "/song.png";
         this.avatar_url = data.avatar;
         this.is_live_stream = data.is_live === true;
         if (this.mediaSession) this.set_mediaSession(data.name,data.artist,"Music For Life",data.avatar);
-        this.set_mp3(data.url);
+        this.set_mp3(data.mp3);
       }else{
         this.list_song.push(data);
         if(this.list_song.length==1) this.play_by_index(0);
@@ -288,7 +289,7 @@ if (typeof window.CR_Player === "undefined") {
         var html = '<div id="cr_player">';
         html += '<div id="cr_time_info">00:00:00</div>';
         html += '<div id="cr_time_length">00:00:00</div>';
-        html += '<img role="button" src="'+this.avatar_url+'" id="cr_song_avatar" onerror="this.onerror=null; this.src=\'/cr_player/song.png\';" onclick="cr_player.show_playlist()"/>';
+        html += '<img role="button" src="'+this.avatar_url+'" id="cr_song_avatar" onerror="this.onerror=null; this.src=\'' + this.path + '/song.png\';" onclick="cr_player.show_playlist()"/>';
         html += '<div id="cr_info" class="d-inline mt-2 ml-2">';
         html += '<div id="cr_name">' + this.name_song + "</div>";
         html += '<div id="cr_singer" style="color:' +this.color_hightlight +'">' +this.name_singer +"</div>";
@@ -493,7 +494,7 @@ if (typeof window.CR_Player === "undefined") {
       $(cr_player.list_theme).each(function (index, th) {
         $("#" + th).remove();
       });
-      $("head").append('<link id="' +name_theme +'" rel="stylesheet" type="text/css" href="cr_player/' +name_theme +'.css">');
+      $("head").append('<link id="' +name_theme +'" rel="stylesheet" type="text/css" href="' + this.path + '/' +name_theme +'.css">');
     }
 
     next_song() {
